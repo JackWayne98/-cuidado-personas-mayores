@@ -20,7 +20,11 @@ const insert = async ({ name, lastname, email, phone, password }) => {
     [name, lastname, email, phone, password]
   );
 
+<<<<<<< Updated upstream
   return result[0];
+=======
+  return result;
+>>>>>>> Stashed changes
 };
 
 module.exports = { selectById, selectByEmail, insert };

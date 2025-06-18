@@ -41,10 +41,18 @@ const register = async (req, res) => {
     };
 
     const result = await Usuario.insert(userData);
+<<<<<<< Updated upstream
 
     res.json({
       success: true,
       result,
+=======
+    const user = await Usuario.selectById(result.insertId);
+
+    res.json({
+      success: true,
+      user
+>>>>>>> Stashed changes
     });
   } catch (error) {
     console.error("Registration error:", error);
