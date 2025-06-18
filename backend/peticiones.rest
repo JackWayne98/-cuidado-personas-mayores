@@ -1,0 +1,17 @@
+@host= http://localhost:3000
+
+###
+GET {{host}}/api/usuarios/1
+
+
+###
+POST {{host}}/api/usuarios/register
+Content-Type: application/json
+
+{
+    "name":"Test",
+    "lastname":"Test",
+    "email":"Test4",
+    "phone":"Test",
+    "password": "Test"
+}
