@@ -1,8 +1,11 @@
-const { register } = require('../../controllers/usuarios.controller');
+const { register, getById } = require("../../controllers/usuarios.controller");
 
-const router = require('express').Router();
+
+const router = require("express").Router();
 
 // Define your routes here
-router.post('/register', register)
+
+router.get("/:userId", getById);
+router.post("/register", register);
 
 module.exports = router;
