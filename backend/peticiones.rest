@@ -15,3 +15,12 @@ Content-Type: application/json
     "phone":"Test",
     "password": "Test"
 }
+
+###
+POST {{host}}/api/usuarios/login
+Content-Type: application/json
+
+{
+    "email": "Test4",
+    "password": "Test"
+}
