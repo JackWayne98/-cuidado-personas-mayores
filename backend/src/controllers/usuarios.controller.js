@@ -1,4 +1,6 @@
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const dayjs = require('dayjs');
 
 const Usuario = require("../models/usuarios.model");
 
@@ -56,4 +58,33 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getById, register };
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await Usuario.selectByEmail(email);
+  if (!user) {
+    return res.status(401).json({
+      message: 'Error usuario y/o contraseña'
+    });
+  }
+
+  const equals = bcrypt.compareSync(password, user.password);
+  if (!equals) {
+    return res.status(401).json({
+      message: 'Error usuario y/o password'
+    });
+  }
+
+  const secret = process.env.JWT_SECRET;
+
+  res.json({
+    token: jwt.sign({
+      user_id: user.id,
+      rol: user.rol,
+      exp: dayjs().add(5, "day").unix()
+    }, secret)
+  })
+
+};
+
+module.exports = { getAll, getById, register, login };
