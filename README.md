@@ -13,6 +13,7 @@ Este proyecto permite organizar, planificar y compartir rutinas para el cuidado 
 - **Frontend:** Martin, Humberto
 - **Backend:** Santiago, José Luis
 - **Base de datos:** Andrés, Pamela
+- *Soporte y PM*: Jack
 
 ## 🧪 Testing
 
