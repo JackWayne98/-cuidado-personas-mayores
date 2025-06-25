@@ -1,15 +1,12 @@
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2wiOm51bGwsImV4cCI6MTc1MTE2NzA3OCwiaWF0IjoxNzUwNzM1MDc4fQ.Z4TvmRAvOF9SH1WmaJ6amKWYMvzpHOMFhRKSg1mLZnI
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2wiOm51bGwsImV4cCI6MTc1MTI3OTUwNywiaWF0IjoxNzUwODQ3NTA3fQ.dM2uQVmK65PgizMK6M_R0xugG9JM79z-wZ9Mzh1XtHo
+
+############
+# USUARIOS #
+############
+
 ###
 GET {{host}}/api/usuarios/1
-
-###
-GET {{host}}/api/personas-mayores/1
-Authorization: {{token}}
-
-###
-GET {{host}}/api/personas-mayores
-Authorization: {{token}}
 
 ###
 POST {{host}}/api/usuarios/register
@@ -22,6 +19,18 @@ Content-Type: application/json
     "phone":"Test",
     "password": "Test"
 }
+
+#################
+# PERSONA MAYOR #
+#################
+
+###
+GET {{host}}/api/personas-mayores/1
+Authorization: {{token}}
+
+###
+GET {{host}}/api/personas-mayores
+Authorization: {{token}}
 
 ###
 POST {{host}}/api/personas-mayores
@@ -44,7 +53,7 @@ POST {{host}}/api/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "Test",
+    "email": "Test4",
     "password": "Test"
 }
 
@@ -66,3 +75,7 @@ Authorization: {{token}}
 ###
 DELETE {{host}}/api/personas-mayores/4
 Authorization: {{token}}
+
+###############
+# ACTIVIDADES #
+###############
