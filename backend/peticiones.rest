@@ -1,8 +1,15 @@
 @host= http://localhost:3000
-
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2wiOm51bGwsImV4cCI6MTc1MTE2NzA3OCwiaWF0IjoxNzUwNzM1MDc4fQ.Z4TvmRAvOF9SH1WmaJ6amKWYMvzpHOMFhRKSg1mLZnI
 ###
 GET {{host}}/api/usuarios/1
 
+###
+GET {{host}}/api/personas-mayores/1
+Authorization: {{token}}
+
+###
+GET {{host}}/api/personas-mayores
+Authorization: {{token}}
 
 ###
 POST {{host}}/api/usuarios/register
@@ -11,7 +18,51 @@ Content-Type: application/json
 {
     "name":"Test",
     "lastname":"Test",
-    "email":"Test4",
+    "email":"Test1189",
     "phone":"Test",
     "password": "Test"
 }
+
+###
+POST {{host}}/api/personas-mayores
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "fecha_nacimiento": "1950-05-10",
+  "genero": "Masculino",
+  "movilidad": "Limitada",
+  "condiciones_medicas": "Diabetes",
+  "notas_generales": "Requiere atención especial",
+  "relacion": "familiar"
+}
+
+###
+POST {{host}}/api/usuarios/login
+Content-Type: application/json
+
+{
+    "email": "Test",
+    "password": "Test"
+}
+
+###
+PUT {{host}}/api/personas-mayores/1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Juana",
+  "apellido": "Pérez",
+  "fecha_nacimiento": "1945-03-15",
+  "genero": "femenino",
+  "movilidad": "limitada",
+  "condiciones_medicas": "hipertensión",
+  "notas_generales": "Requiere control mensual"
+}
+
+###
+DELETE {{host}}/api/personas-mayores/4
+Authorization: {{token}}
