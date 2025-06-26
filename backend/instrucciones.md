@@ -65,7 +65,7 @@ Response: Confirmación de eliminación
 ### Obtener actividades de una persona mayor
 
 Method: GET  
-Url: /api/actividades/persona/:elderId  
+Url: /api/actividades/persona-mayor/:elderId  
 Headers: Authorization: Bearer <token>  
 Response: Array de lista de actividades asociadas a la persona mayor
 
