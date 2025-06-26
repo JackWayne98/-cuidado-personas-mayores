@@ -74,14 +74,14 @@ Response: Array de lista de actividades asociadas a la persona mayor
 Method: GET  
 Url: /api/actividades/:id  
 Headers: Authorization: Bearer <token>  
-Response: Objeti de detalles de la actividad
+Response: Objeto de actividad
 
 ### Crear una nueva actividad
 
 Method: POST  
 Url: /api/actividades  
 Headers: Authorization: Bearer <token>  
-Body: titulo, descripcion, fecha, hora, persona_mayor_id  
+Body: nombre, categoria (una de: medicación, terapia, ejercicio, alimentación, descanso, visita, ocio), descripcion, es_recurrente
 Response: Objeto de actividad creada
 
 ### Actualizar una actividad existente
@@ -89,7 +89,7 @@ Response: Objeto de actividad creada
 Method: PUT  
 Url: /api/actividades/:id  
 Headers: Authorization: Bearer <token>  
-Body: persona_mayor_id, nombre, categoria, descripcion, es recurrente  
+Body: nombre, categoria (una de: medicación, terapia, ejercicio, alimentación, descanso, visita, ocio), descripcion, es_recurrente
 Response: Objeto de actividad actualizada
 
 ### Eliminar una actividad

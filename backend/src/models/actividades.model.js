@@ -38,4 +38,40 @@ const selectByPersonaMayorId = async (persona_mayor_id) => {
     return result;
 };
 
-module.exports = { insert, selectById, selectByPersonaMayorId, selectByPersonaMayorId };
+const update = async (id, datosActualizados) => {
+    const {
+        nombre,
+        categoria,
+        descripcion,
+        es_recurrente,
+        modificado_por,
+        fecha_modificacion
+    } = datosActualizados;
+
+    const query = `
+    UPDATE actividad
+    SET nombre = ?, categoria = ?, descripcion = ?, es_recurrente = ?, modificado_por = ?, fecha_modificacion = ?
+    WHERE id = ?
+  `;
+
+    const [result] = await db.query(query, [
+        nombre,
+        categoria,
+        descripcion,
+        es_recurrente,
+        modificado_por,
+        fecha_modificacion,
+        id
+    ]);
+
+    return result;
+};
+
+const remove = async (id) => {
+    const query = "DELETE FROM actividad WHERE id = ?";
+    const [result] = await db.query(query, [id]);
+    return result;
+};
+
+
+module.exports = { insert, selectById, selectByPersonaMayorId, update, remove };

@@ -1,5 +1,5 @@
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2wiOm51bGwsImV4cCI6MTc1MTI3OTUwNywiaWF0IjoxNzUwODQ3NTA3fQ.dM2uQVmK65PgizMK6M_R0xugG9JM79z-wZ9Mzh1XtHo
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2wiOm51bGwsImV4cCI6MTc1MTM1MDA5MywiaWF0IjoxNzUwOTE4MDkzfQ.2fAvoVcTBGQg_ojFgJzB6dn0CyMxkljTSqBDK_1-JPw
 
 ############
 # USUARIOS #
@@ -13,10 +13,19 @@ POST {{host}}/api/usuarios/register
 Content-Type: application/json
 
 {
-    "name":"Test",
-    "lastname":"Test",
-    "email":"Test1189",
-    "phone":"Test",
+    "name":"Test2",
+    "lastname":"Test2",
+    "email":"Test2",
+    "phone":"Test2",
+    "password": "Test"
+}
+
+###
+POST {{host}}/api/usuarios/login
+Content-Type: application/json
+
+{
+    "email": "Test2",
     "password": "Test"
 }
 
@@ -38,8 +47,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "nombre": "Juan",
-  "apellido": "Pérez",
+  "nombre": "Cesar",
+  "apellido": "Ho",
   "fecha_nacimiento": "1950-05-10",
   "genero": "Masculino",
   "movilidad": "Limitada",
@@ -48,14 +57,6 @@ Authorization: {{token}}
   "relacion": "familiar"
 }
 
-###
-POST {{host}}/api/usuarios/login
-Content-Type: application/json
-
-{
-    "email": "Test4",
-    "password": "Test"
-}
 
 ###
 PUT {{host}}/api/personas-mayores/1
@@ -79,3 +80,40 @@ Authorization: {{token}}
 ###############
 # ACTIVIDADES #
 ###############
+
+###
+GET {{host}}/api/actividades/persona-mayor/2
+Authorization: {{token}}
+
+###
+GET {{host}}/api/actividades/3
+Authorization: {{token}}
+
+###
+POST {{host}}/api/actividades
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 2,
+  "nombre": "Training",
+  "categoria": "ocio",
+  "descripcion": "Estiramientos suaves de 30 minutos",
+  "es_recurrente": 0
+}
+
+###
+PUT {{host}}/api/actividades/5
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Ejercicio de memoria 2",
+  "categoria": "terapia",
+  "descripcion": "Actividades para estimular la memoria y concentración",
+  "es_recurrente": 1
+}
+
+###
+DELETE {{host}}/api/actividades/6
+Authorization: {{token}}
