@@ -60,7 +60,7 @@ Response: Confirmación de eliminación
 
 ---
 
-## ACTIVIDADDES
+## ACTIVIDADES
 
 ### Obtener actividades de una persona mayor
 
@@ -84,7 +84,8 @@ Headers: Authorization: Bearer <token>
 Body: nombre, categoria (una de: medicación, terapia, ejercicio, alimentación, descanso, visita, ocio), descripcion, es_recurrente
 Response: Objeto de actividad creada
 
-### Actualizar una actividad existente
+### Actualizar una actividad existente 
+
 
 Method: PUT  
 Url: /api/actividades/:id  
@@ -98,3 +99,37 @@ Method: DELETE
 Url: /api/actividades/:id  
 Headers: Authorization: Bearer <token>  
 Response: Confirmación de eliminación
+
+
+
+### EVENTO ACTIVIDAD
+
+### Crear un nuevo evento actividad individual
+
+Method: POST
+Url: /api/evento-actividad
+Headers: Authorization: Bearer 
+Body: actividad_id, fecha_inicio, fecha_fin, recordatorio
+Response: Objeto del evento creado
+
+### Crear eventos recurrentes para una actividad
+
+Method: POST
+Url: /api/evento-actividad/recurrente
+Headers: Authorization: Bearer 
+Body: actividad_id, fecha_inicio, fecha_fin, recordatorio, intervalo_horas, repeticiones
+Response: Objeto con grupo_recurrencia_id y lista de eventos creados
+
+### Obtener eventos actividad por usuario autenticado
+
+Method: GET
+Url: /api/evento-actividad/usuario
+Headers: Authorization: Bearer 
+Response: Lista de eventos del usuario
+
+### Obtener un evento actividad individual por ID
+
+Method: GET
+Url: /api/evento-actividad/:id
+Headers: Authorization: Bearer 
+Response: Objeto del evento solicitado 
