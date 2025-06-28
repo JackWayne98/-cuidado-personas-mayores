@@ -1,5 +1,5 @@
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2wiOm51bGwsImV4cCI6MTc1MTM1MDA5MywiaWF0IjoxNzUwOTE4MDkzfQ.2fAvoVcTBGQg_ojFgJzB6dn0CyMxkljTSqBDK_1-JPw
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2wiOiJmYW1pbGlhciIsImV4cCI6MTc1MTQ5NTkzNSwiaWF0IjoxNzUxMDYzOTM1fQ.YiCp2k9wMuQj-l0q3qzKXCwFe9a6_aXy7Hd6Ox9KrZA
 
 ############
 # USUARIOS #
@@ -13,10 +13,10 @@ POST {{host}}/api/usuarios/register
 Content-Type: application/json
 
 {
-    "name":"Test2",
-    "lastname":"Test2",
-    "email":"Test2",
-    "phone":"Test2",
+    "name":"Juan",
+    "lastname":"Pérez",
+    "email":"carlos.ramirez@example.com",
+    "phone":"0991234567",
     "password": "Test"
 }
 
@@ -25,7 +25,7 @@ POST {{host}}/api/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "Test2",
+    "email": "carlos.ramirez@example.com",
     "password": "Test"
 }
 
@@ -59,7 +59,7 @@ Authorization: {{token}}
 
 
 ###
-PUT {{host}}/api/personas-mayores/1
+PUT {{host}}/api/personas-mayores/5
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -116,4 +116,27 @@ Authorization: {{token}}
 
 ###
 DELETE {{host}}/api/actividades/6
+Authorization: {{token}}
+
+
+###############
+# EVENTOACTIVIDAD #
+###############
+POST {{host}}/api/evento-actividad
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "actividad_id": 5,
+  "fecha_inicio": "2025-07-01 09:00:00",
+  "fecha_fin": "2025-07-01 10:00:00",
+  "recordatorio": true
+}
+
+###
+GET {{host}}/api/evento-actividad
+Authorization: {{token}}
+
+###
+GET {{host}}/api/evento-actividad/11
 Authorization: {{token}}
