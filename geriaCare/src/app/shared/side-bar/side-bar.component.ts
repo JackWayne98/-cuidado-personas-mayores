@@ -1,29 +1,27 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-side-bar',
-  imports: [RouterModule],
+  standalone: true,
+  imports: [RouterModule, CommonModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css',
 })
 export class SideBarComponent {
   @Input() isOpen = false;
-  @Output() sidebarToggle = new EventEmitter<void>();
-  @Output() activeItemChange = new EventEmitter<string>();
+  @Output() sectionChange = new EventEmitter<string>();
 
-  activeItem = 'dashboard';
+  isCollapsed = false;
+  activeSection = 'dashboard';
 
-  setActive(item: string): void {
-    this.activeItem = item;
-    this.activeItemChange.emit(item);
-
-    if (window.innerWidth < 768) {
-      this.closeSidebar();
-    }
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
-  closeSidebar(): void {
-    this.sidebarToggle.emit();
+  setActive(section: string) {
+    this.activeSection = section;
+    this.sectionChange.emit(section);
   }
 }

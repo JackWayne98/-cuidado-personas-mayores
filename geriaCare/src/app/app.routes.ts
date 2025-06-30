@@ -7,6 +7,10 @@ import { RegisterElderlyFormComponent } from './pages/register-elderly-form/regi
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { authGuard } from './guards/auth.guard';
 import { ActivitiesFormComponent } from './pages/activities-form/activities-form.component';
+import { EldersListComponent } from './pages/elders-list/elders-list.component';
+import { EldersPrescriptionsComponent } from './pages/elders-prescriptions/elders-prescriptions.component';
+import { EldersDietComponent } from './pages/elders-diet/elders-diet.component';
+import { ActivitiesListComponent } from './pages/activities-list/activities-list.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -21,6 +25,10 @@ export const routes: Routes = [
       { path: '', component: DashboardComponent },
       { path: 'registerelder', component: RegisterElderlyFormComponent },
       { path: 'registeractivity', component: ActivitiesFormComponent },
+      { path: 'elderlist', component: EldersListComponent },
+      { path: 'eldersprescription', component: EldersPrescriptionsComponent },
+      { path: 'eldersdiet', component: EldersDietComponent },
+      { path: 'activitieslist', component: ActivitiesListComponent },
     ],
   },
   { path: '**', redirectTo: 'home' },
