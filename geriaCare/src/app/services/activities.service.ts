@@ -21,4 +21,17 @@ export class ActivitiesService {
       this.http.post<Iactivity>(this.endpoint, data, { headers })
     );
   }
+
+  getActivitiesByElderId(elderId: number): Promise<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `${token}`,
+    });
+
+    return lastValueFrom(
+      this.http.get<any>(`${this.endpoint}/persona-mayor/${elderId}`, {
+        headers,
+      })
+    );
+  }
 }
