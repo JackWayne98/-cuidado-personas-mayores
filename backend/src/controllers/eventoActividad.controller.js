@@ -5,18 +5,20 @@ const { v4: uuidv4 } = require("uuid");
 const {
   eventoActividadSchema,
 } = require("../validators/eventoActividad.validator.js");
-const { eventoActividadRecurrenteSchema } = require("../validators/eventoActividadRecurrente.validator.js");
+const {
+  eventoActividadRecurrenteSchema,
+} = require("../validators/eventoActividadRecurrente.validator.js");
 
 const getByUser = async (req, res) => {
   try {
     const events = await EventoActividad.selectByUser(req.user.id);
-    res.json({
+    return res.json({
       message: "Eventos obtenidos correctamente",
       events,
     });
   } catch (error) {
     console.error("Error al obtener eventos:", error);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Hubo un error al obtener los eventos",
       error: error.message,
     });
@@ -31,7 +33,7 @@ const getById = async (req, res) => {
       message: "Evento no encontrado",
     });
   }
-  res.json({
+  return res.json({
     message: "Evento obtenido Correctamente",
     eventoActividad,
   });
@@ -72,7 +74,7 @@ const create = async (req, res) => {
 
     const eventoCreado = await EventoActividad.selectById(result.insertId);
 
-    res.status(201).json({
+    return res.json({
       message: "Evento registrado correctamente",
       eventoCreado,
     });
@@ -143,18 +145,20 @@ const createRecurrentEvent = async (req, res) => {
           fecha_modificacion,
           grupo_recurrencia_id
         )
-        
       );
-    console.log("Insertando evento con grupo_recurrencia_id:", grupo_recurrencia_id);
+      console.log(
+        "Insertando evento con grupo_recurrencia_id:",
+        grupo_recurrencia_id
+      );
       inicio = inicio.add(intervalo_horas, "hour");
       fin = fin.add(intervalo_horas, "hour");
     }
     const eventos = await Promise.all(inserts);
 
     res.status(201).json({
-       message: "Eventos recurrentes registrados correctamente",
+      message: "Eventos recurrentes registrados correctamente",
       grupo_recurrencia_id,
-      eventos
+      eventos,
     });
   } catch (err) {
     console.error("Error al registrar eventos recurrentes:", err);
@@ -165,4 +169,148 @@ const createRecurrentEvent = async (req, res) => {
   }
 };
 
-module.exports = { getByUser, getById, create, createRecurrentEvent };
+const edit = async (req, res) => {
+  const { fecha_inicio, fecha_fin, recordatorio } = req.body;
+  const eventoActividadId = req.params.id;
+  const eventoActual = await EventoActividad.selectById(eventoActividadId);
+
+  const modificado_por = req.user.id;
+  const fecha_modificacion = dayjs().format("YYYY-MM-DD HH:mm:ss");
+
+  const updatedEventoActividadData = {
+    fecha_inicio,
+    fecha_fin,
+    recordatorio,
+    modificado_por,
+    fecha_modificacion,
+    estado: eventoActual.estado,
+  };
+
+  try {
+    const result = await EventoActividad.put(
+      eventoActividadId,
+      updatedEventoActividadData
+    );
+
+    const eventoActividadUpdated = await EventoActividad.selectById(
+      eventoActividadId
+    );
+
+    return res.json({
+      message: "Evento actualizado correctamente",
+      eventoActividadUpdated,
+    });
+  } catch (err) {
+    console.error("Error al actualizar evento:", err);
+    return res.status(500).json({
+      message: "Hubo un error al actualizar el evento",
+      error: err.message,
+    });
+  }
+};
+
+const updateStatus = async (req, res) => {
+  try {
+    const { estado } = req.body;
+    const modificado_por = req.user.id;
+    const fecha_modificacion = dayjs().format("YYYY-MM-DD HH:mm:ss");
+
+    if (
+      typeof estado !== "string" ||
+      !["pendiente", "completado", "cancelado"].includes(estado)
+    ) {
+      return res.status(400).json({
+        message: "El estado debe ser 'pendiente', 'completado' o 'cancelado'",
+      });
+    }
+    const eventoActual = await EventoActividad.selectById(req.params.id);
+    if (!eventoActual) {
+      return res.status(404).json({
+        message: "Evento no encontrado",
+      });
+    }
+
+    const result = await EventoActividad.putStatus(
+      req.params.id,
+      estado,
+      modificado_por,
+      fecha_modificacion
+    );
+    const eventoActualizado = await EventoActividad.selectById(req.params.id);
+
+    res.json({
+      message: "Estado del evento actualizado correctamente",
+      estado: eventoActualizado.estado,
+    });
+  } catch (error) {
+    console.error("Error al actualizar el estado del evento:", error);
+    return res.status(500).json({
+      message: "Hubo un error al actualizar el estado del evento",
+      error: error.message,
+    });
+  }
+};
+
+const deleteEventoActividad = async (req, res) => {
+  try {
+    const eventoActividad = await EventoActividad.selectById(req.params.id);
+    if (!eventoActividad) {
+      return res.status(404).json({
+        message: "Evento no encontrado",
+      });
+    }
+    const result = await EventoActividad.deleteEventoActividad(req.params.id);
+    return res.json({
+      message: "Evento Eliminado Correctamente",
+      eventoActividad,
+    });
+  } catch (err) {
+    console.error("Error al eliminar evento:", err);
+    res.status(500).json({
+      message: "Hubo un error al eliminar el evento",
+      error: err.message,
+    });
+  }
+};
+
+const deletebyRecurrentGroup = async (req, res) => {
+  try {
+    const { grupo_recurrencia_id } = req.params;
+    if (!grupo_recurrencia_id) {
+      return res.status(400).json({
+        message: "El ID del grupo de recurrencia es requerido",
+      });
+    }
+
+    const result = await EventoActividad.deletebyRecurrentGroup(
+      grupo_recurrencia_id
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message:
+          "No se encontraron eventos para eliminar con el grupo de recurrencia ingresado",
+      });
+    }
+    return res.json({
+      message: "Eventos recurrentes eliminados correctamente",
+      grupo_recurrencia_id,
+    });
+  } catch (err) {
+    console.error("Error al eliminar eventos recurrentes:", err);
+    return res.status(500).json({
+      message: "Hubo un error al eliminar los eventos recurrentes",
+      error: err.message,
+    });
+  }
+};
+
+module.exports = {
+  getByUser,
+  getById,
+  create,
+  createRecurrentEvent,
+  edit,
+  updateStatus,
+  deleteEventoActividad,
+  deletebyRecurrentGroup,
+};

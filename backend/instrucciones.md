@@ -133,6 +133,36 @@ Url: /api/evento-actividad/:id
 Headers: Authorization: Bearer
 Response: Objeto del evento solicitado
 
+### Editar un evento actividad
+
+Method: PUT
+Url: /api/evento-actividad/:id
+Headers: Authorization: Bearer <token>
+Body: fecha_inicio, fecha_fin, recordatorio, (opcional: estado si se desea cambiar)
+Response: Objeto del evento actualizado
+
+### Cambiar el estado de un evento actividad
+
+Method: PUT
+Url: /api/evento-actividad/:id/estado
+Headers: Authorization: Bearer
+Body: estado (uno de: pendiente, completado, cancelado)
+Response: Estado del Objeto del evento actualizado
+
+### Eliminar un evento actividad
+
+Method: DELETE
+Url: /api/evento-actividad/:id
+Headers: Authorization: Bearer
+Response: Confirmación de eliminación y datos del evento eliminado
+
+### Eliminar eventos recurrentes por grupo de recurrencia
+Method: DELETE
+Url: /api/evento-actividad/recurrentes/:grupo_recurrencia_id
+Headers: Authorization: Bearer
+Response: Mensaje confirmando la eliminación o error si no se encuentran eventos con ese grupo.
+
+
 ---
 
 ## RECETAS MÉDICAS
