@@ -186,5 +186,50 @@ Authorization: {{token}}
 }
 
 ###
-DELETE {{host}}/api/recetas-medicas/2
+DELETE {{host}}/api/recetas-medicas/4
+Authorization: {{token}}
+
+##########
+# DIETAS #
+##########
+
+###
+###
+POST {{host}}/api/dietas-alimenticias
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 3,
+  "descripcion": "Dieta baja en grasas",
+  "restricciones": "Evitar frituras, embutidos y productos ultraprocesados",
+  "recomendaciones": "Consumir frutas, verduras, pescado y aceite de oliva",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-08-01"
+}
+
+###
+GET {{host}}/api/dietas-alimenticias/persona-mayor/3
+Authorization: {{token}}
+
+###
+GET {{host}}/api/dietas-alimenticias/8
+Authorization: {{token}}
+
+###
+PUT {{host}}/api/dietas-alimenticias/4
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "descripcion": "Dieta baja en sodio",
+  "restricciones": "Evitar alimentos procesados, sopas instantáneas",
+  "recomendaciones": "Consumir vegetales frescos, legumbres y carnes magras",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-09-01",
+  "es_activa": 1
+}
+
+###
+DELETE {{host}}/api/dietas-alimenticias/2
 Authorization: {{token}}

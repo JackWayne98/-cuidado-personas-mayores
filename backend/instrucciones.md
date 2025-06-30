@@ -173,3 +173,44 @@ Method: DELETE
 Url: /api/recetas-medicas/:id
 Headers: Authorization: Bearer <token>
 Response: Confirmación de eliminación
+
+---
+
+## DIETAS ALIMENTICIAS
+
+### Crear una nueva dieta alimenticia
+
+Method: POST  
+Url: /api/dietas-alimenticias  
+Headers: Authorization: Bearer <token>  
+Body: persona_mayor_id, descripcion, restricciones, recomendaciones, fecha_inicio, fecha_fin  
+Response: Objeto de la dieta alimenticia creada
+
+### Obtener dietas alimenticias de una persona mayor
+
+Method: GET  
+Url: /api/dietas-alimenticias/persona-mayor/:elderId  
+Headers: Authorization: Bearer <token>  
+Response: Array con dietas alimenticias asociadas a la persona mayor
+
+### Obtener una dieta alimenticia por ID
+
+Method: GET  
+Url: /api/dietas-alimenticias/:id  
+Headers: Authorization: Bearer <token>  
+Response: Objeto de dieta alimenticia
+
+### Actualizar una dieta alimenticia
+
+Method: PUT  
+Url: /api/dietas-alimenticias/:id  
+Headers: Authorization: Bearer <token>  
+Body: descripcion, restricciones, recomendaciones, fecha_inicio, fecha_fin, es_activa  
+Response: Objeto de dieta alimenticia actualizada
+
+### Eliminar una dieta alimenticia
+
+Method: DELETE  
+Url: /api/dietas-alimenticias/:id  
+Headers: Authorization: Bearer <token>  
+Response: Confirmación de eliminación
