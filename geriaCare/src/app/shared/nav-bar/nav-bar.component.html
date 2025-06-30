@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg bg-light navbar-light mb-1 px-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/home']">
+      <figure class="botones logo d-flex align-items-center gap-2 m-0">
+        <img class="img-fluid" src="./images/logo.png" alt="" />
+      </figure>
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['/home']"
+            data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show"
+          >
+            Home
+          </a>
+        </li>
+
+        @if (!isLogged) {
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['/registeruser']"
+            data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show"
+          >
+            Sign Up
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['/loginuser']"
+            data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show"
+          >
+            Log in
+          </a>
+        </li>
+        } @else {
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            href="#"
+            (click)="logout()"
+            data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show"
+          >
+            Log out
+          </a>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

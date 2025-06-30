@@ -1,0 +1,44 @@
+<div class="sidebar" [class.show]="isOpen">
+  <div class="sidebar-brand">
+    <i class="fas fa-tachometer-alt me-2"></i>
+    Dashboard
+  </div>
+
+  <nav class="nav flex-column">
+    <a
+      class="nav-link"
+      [routerLink]="['/dashboard']"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="setActive('dashboard')"
+    >
+      <i class="fas fa-home"></i>
+      Dashboard
+    </a>
+
+    <a
+      class="nav-link"
+      [routerLink]="['/dashboard/registerelder']"
+      routerLinkActive="active"
+      (click)="setActive('elder-list')"
+    >
+      <i class="fas fa-users"></i>
+      Add Elder
+    </a>
+    <a
+      class="nav-link"
+      [routerLink]="['/dashboard/registeractivity']"
+      routerLinkActive="active"
+      (click)="setActive('activity')"
+    >
+      <i class="fas fa-activity"></i>
+      Add Activity
+    </a>
+  </nav>
+</div>
+
+<div
+  class="sidebar-overlay d-md-none"
+  [class.show]="isOpen"
+  (click)="closeSidebar()"
+></div>

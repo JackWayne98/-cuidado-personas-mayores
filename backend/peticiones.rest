@@ -1,5 +1,5 @@
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2wiOiJmYW1pbGlhciIsImV4cCI6MTc1MTQ5NTkzNSwiaWF0IjoxNzUxMDYzOTM1fQ.YiCp2k9wMuQj-l0q3qzKXCwFe9a6_aXy7Hd6Ox9KrZA
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJyb2wiOiJwcm9mZXNpb25hbF9zYWx1ZCIsImV4cCI6MTc1MTY3MzA3MSwiaWF0IjoxNzUxMjQxMDcxfQ.71Z3xAL39ZkeGh32DZVHkT05PTYWB1qP6Ktd0f9GQps
 
 ############
 # USUARIOS #
@@ -119,9 +119,9 @@ DELETE {{host}}/api/actividades/6
 Authorization: {{token}}
 
 
-###############
+###################
 # EVENTOACTIVIDAD #
-###############
+###################
 POST {{host}}/api/evento-actividad
 Content-Type: application/json
 Authorization: {{token}}
@@ -139,4 +139,97 @@ Authorization: {{token}}
 
 ###
 GET {{host}}/api/evento-actividad/11
+Authorization: {{token}}
+
+###########
+# RECETAS #
+###########
+
+###
+POST {{host}}/api/recetas-medicas
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 9,
+  "medicamento": "Atorvastatina",
+  "dosis": "10 mg",
+  "frecuencia": "1 vez al día",
+  "fecha_inicio": "2025-06-30",
+  "fecha_fin": "2025-07-30",
+  "prescrita_por": "Dr. Ramírez",
+  "archivo_pdf": "receta_atorvastatina.pdf"
+}
+
+###
+GET {{host}}/api/recetas-medicas/persona-mayor/2
+Authorization: {{token}}
+
+###
+GET {{host}}/api/recetas-medicas/5
+Authorization: {{token}}
+
+###
+###
+PUT {{host}}/api/recetas-medicas/2
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "medicamento": "Metformina",
+  "dosis": "850 mg",
+  "frecuencia": "2 veces al día",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-08-01",
+  "prescrita_por": "Dra. Martínez",
+  "archivo_pdf": "receta_metformina.pdf"
+}
+
+###
+DELETE {{host}}/api/recetas-medicas/4
+Authorization: {{token}}
+
+##########
+# DIETAS #
+##########
+
+###
+###
+POST {{host}}/api/dietas-alimenticias
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 3,
+  "descripcion": "Dieta baja en grasas",
+  "restricciones": "Evitar frituras, embutidos y productos ultraprocesados",
+  "recomendaciones": "Consumir frutas, verduras, pescado y aceite de oliva",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-08-01"
+}
+
+###
+GET {{host}}/api/dietas-alimenticias/persona-mayor/3
+Authorization: {{token}}
+
+###
+GET {{host}}/api/dietas-alimenticias/8
+Authorization: {{token}}
+
+###
+PUT {{host}}/api/dietas-alimenticias/4
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "descripcion": "Dieta baja en sodio",
+  "restricciones": "Evitar alimentos procesados, sopas instantáneas",
+  "recomendaciones": "Consumir vegetales frescos, legumbres y carnes magras",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-09-01",
+  "es_activa": 1
+}
+
+###
+DELETE {{host}}/api/dietas-alimenticias/2
 Authorization: {{token}}
