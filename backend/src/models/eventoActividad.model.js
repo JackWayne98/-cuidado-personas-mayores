@@ -48,6 +48,14 @@ const selectById = async (id) => {
   return result.length > 0 ? result[0] : null;
 };
 
+const selectByRecurrentGroupId = async (grupo_recurrencia_id) => {
+  const [result] = await db.query(
+    "SELECT * FROM evento_actividad WHERE grupo_recurrencia_id = ?",
+    [grupo_recurrencia_id]
+  );
+  return result;
+};
+
 const put = async (id, data) => {
   const {
     fecha_inicio,
@@ -80,6 +88,29 @@ const putStatus = async (id, estado, modificado_por, fecha_modificacion) => {
   return result;
 };
 
+const putRecurrentGroup = async (data, grupo_recurrencia_id) => {
+  const {
+    fecha_inicio,
+    fecha_fin,
+    recordatorio,
+    modificado_por,
+    fecha_modificacion,
+  } = data;
+
+  const [result] = await db.query(
+    "UPDATE evento_actividad SET fecha_inicio = ?, fecha_fin = ?, recordatorio = ?, modificado_por = ?, fecha_modificacion = ? WHERE grupo_recurrencia_id = ?",
+    [
+      fecha_inicio,
+      fecha_fin,
+      recordatorio,
+      modificado_por,
+      fecha_modificacion,
+      grupo_recurrencia_id,
+    ]
+  );
+  return result;
+};
+
 const deleteEventoActividad = async (id) => {
   const result = await db.query("DELETE FROM evento_actividad WHERE id = ?", [
     id,
@@ -89,7 +120,8 @@ const deleteEventoActividad = async (id) => {
 
 const deletebyRecurrentGroup = async (grupo_recurrencia_id) => {
   const [result] = await db.query(
-    "DELETE FROM evento_actividad WHERE grupo_recurrencia_id = ?",[grupo_recurrencia_id]
+    "DELETE FROM evento_actividad WHERE grupo_recurrencia_id = ?",
+    [grupo_recurrencia_id]
   );
   return result;
 };
@@ -97,9 +129,11 @@ const deletebyRecurrentGroup = async (grupo_recurrencia_id) => {
 module.exports = {
   selectByUser,
   selectById,
+  selectByRecurrentGroupId,
   insertEventoActividad,
   put,
   putStatus,
+  putRecurrentGroup,
   deleteEventoActividad,
-  deletebyRecurrentGroup
+  deletebyRecurrentGroup,
 };

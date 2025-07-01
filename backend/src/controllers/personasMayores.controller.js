@@ -57,13 +57,13 @@ const create = async (req, res) => {
     );
     await PersonaUsuario.insert(personaMayorId, perfilUsuarioId, relacion);
 
-    res.json({
+    return res.json({
       success: true,
       message: "Persona mayor registrada correctamente",
       personaMayor,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -76,16 +76,16 @@ const getById = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Persona mayor no encontrada" });
     }
-    res.json({ success: true, personaMayor });
+    return res.json({ success: true, personaMayor });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
 const getByUser = async (req, res) => {
   const perfilUsuarioId = req.user.id;
   const personasMayores = await PersonaMayor.selectByUser(perfilUsuarioId);
-  res.json({
+  return res.json({
     personasMayores,
   });
 };
@@ -116,8 +116,9 @@ const edit = async (req, res) => {
     modificado_por,
     fecha_modificacion,
   };
-  const personaMayor = await PersonaMayor.update(personaMayorId, PersonaMayorUpdatedData);
-  res.json({
+  const result = await PersonaMayor.update(personaMayorId, PersonaMayorUpdatedData);
+  const personaMayor = await PersonaMayor.selectById(personaMayorId)
+  return res.json({
     personaMayor,
   });
 };
@@ -131,9 +132,9 @@ const deletePersonaMayor = async (req, res) => {
       return res.status(404).json({ success: false, message: "Persona mayor no encontrada" });
     }
 
-    res.json({ success: true, message: "Persona mayor eliminada correctamente" });
+    return res.json({ success: true, message: "Persona mayor eliminada correctamente" });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

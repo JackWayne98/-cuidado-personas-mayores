@@ -1,5 +1,5 @@
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJyb2wiOiJwcm9mZXNpb25hbF9zYWx1ZCIsImV4cCI6MTc1MTY4NTc5NywiaWF0IjoxNzUxMjUzNzk3fQ.AEhOz8zyhDZgo_8f2W_l-VVRHroOMxj1aTJYIX9_0YA
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE3NzU4OTEsImlhdCI6MTc1MTM0Mzg5MX0.5x69VIF7pB2V4RF3cpnGdLT9iDSCieTZRPUZalgWVHQ
 
 ############
 # USUARIOS #
@@ -13,10 +13,10 @@ POST {{host}}/api/usuarios/register
 Content-Type: application/json
 
 {
-    "name":"Juan",
-    "lastname":"Pérez",
-    "email":"carlos.ramirez@example.com",
-    "phone":"0991234567",
+    "name":"Jose",
+    "lastname":"Jiménezx",
+    "email":"josejimenez@example.com",
+    "phone":"099123456",
     "password": "Test"
 }
 
@@ -25,7 +25,7 @@ POST {{host}}/api/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "carlos.ramirez@example.com",
+    "email": "josejimenez@example.com",
     "password": "Test"
 }
 
@@ -33,15 +33,15 @@ Content-Type: application/json
 # PERSONA MAYOR #
 #################
 
-###
-GET {{host}}/api/personas-mayores/1
+### Obtener persona mayor por ID
+GET {{host}}/api/personas-mayores/
 Authorization: {{token}}
 
-###
+### Listar todas las personas mayores del usuario
 GET {{host}}/api/personas-mayores
 Authorization: {{token}}
 
-###
+### Crear una nueva persona mayor
 POST {{host}}/api/personas-mayores
 Content-Type: application/json
 Authorization: {{token}}
@@ -57,9 +57,8 @@ Authorization: {{token}}
   "relacion": "familiar"
 }
 
-
-###
-PUT {{host}}/api/personas-mayores/5
+### Actualizar persona mayor por ID
+PUT {{host}}/api/personas-mayores/7
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -73,8 +72,8 @@ Authorization: {{token}}
   "notas_generales": "Requiere control mensual"
 }
 
-###
-DELETE {{host}}/api/personas-mayores/4
+### Eliminar persona mayor por ID
+DELETE {{host}}/api/personas-mayores/7
 Authorization: {{token}}
 
 ###############
@@ -115,14 +114,27 @@ Authorization: {{token}}
 }
 
 ###
-DELETE {{host}}/api/actividades/6
+DELETE {{host}}/api/actividades/11
 Authorization: {{token}}
 
 
 ###################
 # EVENTOACTIVIDAD #
 ###################
+### Crear un evento individual
 POST {{host}}/api/evento-actividad
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "actividad_id": 2,
+  "fecha_inicio": "2025-07-01 09:00:00",
+  "fecha_fin": "2025-07-01 10:00:00",
+  "recordatorio": true
+}
+
+### Crear un grupo de eventos recurrentes
+POST {{host}}/api/evento-actividad/recurrentes
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -130,36 +142,61 @@ Authorization: {{token}}
   "actividad_id": 5,
   "fecha_inicio": "2025-07-01 09:00:00",
   "fecha_fin": "2025-07-01 10:00:00",
-  "recordatorio": true
+  "recordatorio": true,
+  "intervalo_horas": 24,
+  "repeticiones": 4
 }
 
-###
+### Obtener todos los eventos del usuario
 GET {{host}}/api/evento-actividad
 Authorization: {{token}}
 
-###
+### Obtener eventos de un grupo recurrente específico
+GET {{host}}/api/evento-actividad/recurrentes/7d726bc4-d02a-46ab-a0fa-f36adcc2cf4c
+Authorization: {{token}}
+
+### Obtener un evento individual por ID
 GET {{host}}/api/evento-actividad/11
 Authorization: {{token}}
 
-###
-PUT {{host}}/api/evento-actividad/24
+### Editar un evento individual por ID
+PUT {{host}}/api/evento-actividad/27
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "fecha_inicio": "2025-07-01 09:30:00",
-  "fecha_fin": "2025-07-01 10:30:00",
+  "fecha_inicio": "2025-08-01 09:30:00",
+  "fecha_fin": "2025-08-01 10:30:00",
   "recordatorio": false
 }
 
-###
-PUT {{host}}/api/evento-actividad/24/status
+### Editar un grupo recurrente por ID
+PUT {{host}}/api/evento-actividad/recurrentes/7d726bc4-d02a-46ab-a0fa-f36adcc2cf4c
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "estado": "pendiente"
+  "fecha_inicio": "2025-07-02 08:00:00",
+  "fecha_fin": "2025-07-02 09:00:00",
+  "recordatorio": true
 }
+
+### Cambiar el estado de un evento individual
+PUT {{host}}/api/evento-actividad/12/status
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "estado": "cancelado"
+}
+
+### Eliminar un evento individual
+DELETE {{host}}/api/evento-actividad/13
+Authorization: {{token}}
+
+### Eliminar un grupo recurrente
+DELETE {{host}}/api/evento-actividad/recurrentes/b663395d-5272-4e8b-b69b-1d748cdfc3fa
+Authorization: {{token}}
 
 ###########
 # RECETAS #
