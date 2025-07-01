@@ -29,6 +29,7 @@ export const routes: Routes = [
       { path: 'eldersprescription', component: EldersPrescriptionsComponent },
       { path: 'eldersdiet', component: EldersDietComponent },
       { path: 'activitieslist', component: ActivitiesListComponent },
+      { path: 'elderupdate/:_id', component: RegisterElderlyFormComponent },
     ],
   },
   { path: '**', redirectTo: 'home' },

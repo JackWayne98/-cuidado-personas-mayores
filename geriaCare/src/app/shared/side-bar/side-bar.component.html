@@ -216,7 +216,11 @@
       <h6 class="nav-section-title px-2" *ngIf="!isCollapsed">Sistema</h6>
       <ul class="list-unstyled">
         <li class="mb-1">
-          <a href="#" class="nav-link d-flex align-items-center">
+          <a
+            href="#"
+            (click)="logout()"
+            class="nav-link d-flex align-items-center"
+          >
             <svg
               class="nav-icon"
               viewBox="0 0 24 24"

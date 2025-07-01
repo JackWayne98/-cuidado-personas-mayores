@@ -9,7 +9,7 @@
       <div class="mb-3">
         <label class="form-label">Persona Mayor</label>
         <select class="form-select" formControlName="persona_mayor_id">
-          <option value="" disabled selected>Selecciona un residente</option>
+          <option value="" disabled selected>Selecciona un anciano</option>
           @for (elder of elders(); track elder.id) {
           <option [value]="elder.id">
             {{ elder.nombre }} {{ elder.apellido }}
