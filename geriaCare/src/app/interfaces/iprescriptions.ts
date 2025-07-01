@@ -1,12 +1,13 @@
-export interface Idiet {
+export interface IPrescription {
   id?: number;
   persona_mayor_id: number;
-  descripcion: string;
-  restricciones: string;
-  recomendaciones: string;
+  medicamento: string;
+  dosis: string;
+  frecuencia: string;
   fecha_inicio: string;
   fecha_fin: string;
-  es_activa: boolean;
+  prescrita_por: string;
+  archivo_pdf?: string;
   creado_por?: number;
   modificado_por?: number;
   fecha_creacion?: string;
