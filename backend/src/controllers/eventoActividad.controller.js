@@ -39,6 +39,37 @@ const getById = async (req, res) => {
   });
 };
 
+const getByRecurrentGroupId = async (req, res) => {
+  try {
+    const { grupo_recurrencia_id } = req.params;
+    if (!grupo_recurrencia_id) {
+      return res.status(400).json({
+        message: "El ID del grupo de recurrencia es requerido",
+      });
+    }
+    const eventoActividades = await EventoActividad.selectByRecurrentGroupId(
+      grupo_recurrencia_id
+    );
+
+    if (eventoActividades.length === 0) {
+      return res.status(404).json({
+        message:
+          "No se encontraron eventos para el grupo de recurrencia proporcionado",
+      });
+    }
+    return res.json({
+      message: "Eventos Obtenidos Correctamente",
+      eventoActividades,
+    });
+  } catch (error) {
+    console.error("Error al obtener eventos recurrentes:", error);
+    return res.status(500).json({
+      message: "Hubo un error al obtener los eventos recurrentes",
+      error: error.message,
+    });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const { error, value } = eventoActividadSchema.validate(req.body, {
@@ -154,11 +185,14 @@ const createRecurrentEvent = async (req, res) => {
       fin = fin.add(intervalo_horas, "hour");
     }
     const eventos = await Promise.all(inserts);
+    const eventosCreados = await EventoActividad.selectByRecurrentGroupId(
+      grupo_recurrencia_id
+    );
 
     res.status(201).json({
       message: "Eventos recurrentes registrados correctamente",
       grupo_recurrencia_id,
-      eventos,
+      eventosCreados,
     });
   } catch (err) {
     console.error("Error al registrar eventos recurrentes:", err);
@@ -251,6 +285,54 @@ const updateStatus = async (req, res) => {
   }
 };
 
+const updateRecurrentGroup = async (req, res) => {
+  try {
+    const { fecha_inicio, fecha_fin, recordatorio } = req.body;
+    const modificado_por = req.user.id;
+    const fecha_modificacion = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    const grupo_recurrencia_id = req.params.grupo_recurrencia_id;
+
+    if (!grupo_recurrencia_id) {
+      return res.status(400).json({
+        message: "El ID del grupo de recurrencia es requerido",
+      });
+    }
+
+    const updatedEventoActividadData = {
+      fecha_inicio,
+      fecha_fin,
+      recordatorio,
+      modificado_por,
+      fecha_modificacion,
+    };
+
+    const result = await EventoActividad.putRecurrentGroup(
+      updatedEventoActividadData,
+      grupo_recurrencia_id
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message:
+          "No se encontraron eventos para actualizar con el grupo de recurrencia ingresado",
+      });
+    }
+
+    const eventosActualizados = await EventoActividad.selectByRecurrentGroupId(
+      grupo_recurrencia_id
+    );
+    return res.json({
+      message: "Grupo de recurrencia actualizado correctamente",
+      eventosActualizados,
+    });
+  } catch (err) {
+    console.error("Error al actualizar grupo de recurrencia:", err);
+    return res.status(500).json({
+      message: "Hubo un error al actualizar el grupo de recurrencia",
+      error: err.message,
+    });
+  }
+};
+
 const deleteEventoActividad = async (req, res) => {
   try {
     const eventoActividad = await EventoActividad.selectById(req.params.id);
@@ -307,10 +389,12 @@ const deletebyRecurrentGroup = async (req, res) => {
 module.exports = {
   getByUser,
   getById,
+  getByRecurrentGroupId,
   create,
   createRecurrentEvent,
   edit,
   updateStatus,
+  updateRecurrentGroup,
   deleteEventoActividad,
   deletebyRecurrentGroup,
 };

@@ -83,9 +83,41 @@ const update = async (persona_mayor_id, data) => {
 };
 
 const deleteById = async (persona_mayor_id) => {
-  const [result] = await db.query("DELETE FROM persona_mayor WHERE id = ?", [
+  await db.query(
+    `DELETE ea FROM evento_actividad ea
+     JOIN actividad a ON ea.actividad_id = a.id
+     WHERE a.persona_mayor_id = ?`,
+    [persona_mayor_id]
+  );
+
+  await db.query(`DELETE FROM actividad WHERE persona_mayor_id = ?`, [
     persona_mayor_id,
   ]);
+
+  await db.query(`DELETE FROM contacto_emergencia WHERE persona_mayor_id = ?`, [
+    persona_mayor_id,
+  ]);
+
+  await db.query(`DELETE FROM dieta_alimenticia WHERE persona_mayor_id = ?`, [
+    persona_mayor_id,
+  ]);
+
+  await db.query(`DELETE FROM receta_medica WHERE persona_mayor_id = ?`, [
+    persona_mayor_id,
+  ]);
+
+  await db.query(`DELETE FROM rutina_compartida WHERE persona_mayor_id = ?`, [
+    persona_mayor_id,
+  ]);
+
+  await db.query(`DELETE FROM persona_usuario WHERE persona_mayor_id = ?`, [
+    persona_mayor_id,
+  ]);
+
+  const [result] = await db.query(`DELETE FROM persona_mayor WHERE id = ?`, [
+    persona_mayor_id,
+  ]);
+
   return result;
 };
 
