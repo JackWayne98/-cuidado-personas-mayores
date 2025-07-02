@@ -160,6 +160,25 @@
             <span class="nav-text" *ngIf="!isCollapsed">Registrar Dieta</span>
           </a>
         </li>
+        <li class="mb-1">
+          <a
+            routerLink="/dashboard/elderevent"
+            class="nav-link d-flex align-items-center"
+            [class.active]="activeSection === 'register-event'"
+            (click)="setActive('register-event')"
+          >
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            <span class="nav-text" *ngIf="!isCollapsed">Registrar Evento</span>
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -206,6 +225,24 @@
             <span class="nav-text" *ngIf="!isCollapsed">
               Lista de actividades
             </span>
+          </a>
+        </li>
+        <li class="mb-1">
+          <a
+            routerLink="/dashboard/eventlist"
+            class="nav-link d-flex align-items-center"
+            [class.active]="activeSection === 'event-list'"
+            (click)="setActive('event-list')"
+          >
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path d="M3 6h18M3 12h18M3 18h18" />
+            </svg>
+            <span class="nav-text" *ngIf="!isCollapsed">Lista de eventos</span>
           </a>
         </li>
       </ul>
