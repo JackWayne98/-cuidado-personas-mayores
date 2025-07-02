@@ -1,3 +1,4 @@
+
 @host= http://localhost:3000
 @token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE3NzU4OTEsImlhdCI6MTc1MTM0Mzg5MX0.5x69VIF7pB2V4RF3cpnGdLT9iDSCieTZRPUZalgWVHQ
 
@@ -34,7 +35,7 @@ Content-Type: application/json
 #################
 
 ### Obtener persona mayor por ID
-GET {{host}}/api/personas-mayores/
+GET {{host}}/api/personas-mayores/10
 Authorization: {{token}}
 
 ### Listar todas las personas mayores del usuario
@@ -58,7 +59,7 @@ Authorization: {{token}}
 }
 
 ### Actualizar persona mayor por ID
-PUT {{host}}/api/personas-mayores/7
+PUT {{host}}/api/personas-mayores/9
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -73,7 +74,7 @@ Authorization: {{token}}
 }
 
 ### Eliminar persona mayor por ID
-DELETE {{host}}/api/personas-mayores/7
+DELETE {{host}}/api/personas-mayores/9
 Authorization: {{token}}
 
 ###############
@@ -81,11 +82,11 @@ Authorization: {{token}}
 ###############
 
 ###
-GET {{host}}/api/actividades/persona-mayor/2
+GET {{host}}/api/actividades/persona-mayor/9
 Authorization: {{token}}
 
 ###
-GET {{host}}/api/actividades/3
+GET {{host}}/api/actividades/6
 Authorization: {{token}}
 
 ###
@@ -94,7 +95,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "persona_mayor_id": 2,
+  "persona_mayor_id": 9,
   "nombre": "Training",
   "categoria": "ocio",
   "descripcion": "Estiramientos suaves de 30 minutos",
@@ -102,7 +103,7 @@ Authorization: {{token}}
 }
 
 ###
-PUT {{host}}/api/actividades/5
+PUT {{host}}/api/actividades/6
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -114,7 +115,7 @@ Authorization: {{token}}
 }
 
 ###
-DELETE {{host}}/api/actividades/11
+DELETE {{host}}/api/actividades/6
 Authorization: {{token}}
 
 
@@ -127,7 +128,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "actividad_id": 2,
+  "actividad_id": 7,
   "fecha_inicio": "2025-07-01 09:00:00",
   "fecha_fin": "2025-07-01 10:00:00",
   "recordatorio": true
@@ -139,11 +140,11 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "actividad_id": 5,
+  "actividad_id": 7,
   "fecha_inicio": "2025-07-01 09:00:00",
   "fecha_fin": "2025-07-01 10:00:00",
   "recordatorio": true,
-  "intervalo_horas": 24,
+  "intervalo_horas": 48,
   "repeticiones": 4
 }
 
@@ -160,7 +161,7 @@ GET {{host}}/api/evento-actividad/11
 Authorization: {{token}}
 
 ### Editar un evento individual por ID
-PUT {{host}}/api/evento-actividad/27
+PUT {{host}}/api/evento-actividad/64
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -171,18 +172,18 @@ Authorization: {{token}}
 }
 
 ### Editar un grupo recurrente por ID
-PUT {{host}}/api/evento-actividad/recurrentes/7d726bc4-d02a-46ab-a0fa-f36adcc2cf4c
+PUT {{host}}/api/evento-actividad/recurrentes/41bdbc0f-ae0d-4536-bd7b-ba6433371edd
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "fecha_inicio": "2025-07-02 08:00:00",
-  "fecha_fin": "2025-07-02 09:00:00",
-  "recordatorio": true
+  "fecha_inicio": "2025-07-02 09:00:00",
+  "fecha_fin": "2025-07-02 11:00:00",
+  "recordatorio": false
 }
 
 ### Cambiar el estado de un evento individual
-PUT {{host}}/api/evento-actividad/12/status
+PUT {{host}}/api/evento-actividad/64/status
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -191,11 +192,11 @@ Authorization: {{token}}
 }
 
 ### Eliminar un evento individual
-DELETE {{host}}/api/evento-actividad/13
+DELETE {{host}}/api/evento-actividad/64
 Authorization: {{token}}
 
 ### Eliminar un grupo recurrente
-DELETE {{host}}/api/evento-actividad/recurrentes/b663395d-5272-4e8b-b69b-1d748cdfc3fa
+DELETE {{host}}/api/evento-actividad/recurrentes/41bdbc0f-ae0d-4536-bd7b-ba6433371edd
 Authorization: {{token}}
 
 ###########

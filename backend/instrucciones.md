@@ -133,6 +133,23 @@ Url: /api/evento-actividad/:id
 Headers: Authorization: Bearer
 Response: Objeto del evento solicitado
 
+### Obtener eventos actividad por grupo de recurrencia
+
+Method: GET
+Url: /api/evento-actividad/grupo-recurrencia/:grupo_recurrencia_id
+Headers: Authorization: Bearer
+Params: grupo_recurrencia_id (UUID del grupo de recurrencia)
+Response: Lista de eventos actividad asociados al grupo de recurrencia
+
+
+### Editar eventos de un grupo de recurrencia
+
+Method: PUT  
+Url: /api/evento-actividad/recurrentes/:grupo_recurrencia_id  
+Headers: Authorization: Bearer  
+Body: fecha_inicio, fecha_fin, recordatorio  
+Response: Lista de eventos del grupo actualizados
+
 ### Editar un evento actividad
 
 Method: PUT
