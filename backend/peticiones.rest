@@ -1,5 +1,5 @@
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE3NzU4OTEsImlhdCI6MTc1MTM0Mzg5MX0.5x69VIF7pB2V4RF3cpnGdLT9iDSCieTZRPUZalgWVHQ
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE4NjA4NDksImlhdCI6MTc1MTQyODg0OX0.7FYZ3TLu6WWjit6j-t-klq9AS6XgHoOjWhyOUaQ0C34
 
 ############
 # USUARIOS #
