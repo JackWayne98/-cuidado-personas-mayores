@@ -86,6 +86,14 @@ const login = async (req, res) => {
       },
       secret
     ),
+    user: {
+      id: user.id,
+      nombre: user.nombre,
+      apellido: user.apellido, //informacion agregada para trackeo
+      correo: user.correo,
+      telefono: user.telefono,
+      rol: user.rol,
+    },
   });
 };
 
