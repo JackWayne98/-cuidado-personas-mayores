@@ -33,9 +33,13 @@ const insert = async ({
 };
 
 const selectById = async (persona_mayor_id) => {
-  const [result] = await db.query("SELECT * FROM persona_mayor WHERE id = ?", [
-    persona_mayor_id,
-  ]);
+  const [result] = await db.query(
+    `SELECT pm.*, pu.relacion 
+     FROM persona_mayor pm
+     LEFT JOIN persona_usuario pu ON pm.id = pu.persona_mayor_id
+     WHERE pm.id = ?`,
+    [persona_mayor_id]
+  );
   if (result.length === 0) return null;
   return result[0];
 };
