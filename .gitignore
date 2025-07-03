@@ -41,3 +41,12 @@ coverage/
 
 # Otros archivos que no se deben subir
 *.pem
+
+# IDE and editor files
+.hintrc
+
+# Angular build/cache directories
+geriaCare/.angular/
+
+# Backend notification routes (if temporary)
+backend/src/routes/api/notificaciones.routes.js
