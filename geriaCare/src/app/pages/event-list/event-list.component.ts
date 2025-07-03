@@ -3,10 +3,11 @@ import { EventActivityService } from "../../services/event-activity.service";
 import { IeventResponse } from "../../interfaces/ievent-response";
 import { ActivitiesService } from "../../services/activities.service";
 import { ElderRegisterService } from "../../services/elder-register.service";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-event-list",
-  imports: [],
+  imports: [DatePipe],
   templateUrl: "./event-list.component.html",
   styleUrl: "./event-list.component.css",
 })

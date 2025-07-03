@@ -16,16 +16,16 @@ export class EventActivityFormComponent {
   private activitiesService = inject(ActivitiesService);
   private eventService = inject(EventActivityService);
 
-  elders = signal<Ielder[]>([]);
-  activities = signal<any[]>([]);
-  selectedElderId = signal<number | null>(null);
-  selectedActivityId = signal<number | null>(null);
+  elders: Ielder[] = [];
+  activities: any[] = [];
+
+  selectedElderId: number | null = null;
+  selectedActivityId: number | null = null;
 
   fechaInicio: string = "";
   fechaFin: string = "";
   recordatorio: boolean = false;
 
-  // For recurrent events
   eventType: "individual" | "recurrente" = "individual";
   intervaloHoras: number | null = null;
   repeticiones: number | null = null;
@@ -33,7 +33,7 @@ export class EventActivityFormComponent {
   eldersLoaded = (async () => {
     try {
       const response = await this.elderService.getAllElders();
-      this.elders.set(response.personasMayores);
+      this.elders = response.personasMayores;
     } catch (error) {
       console.error("Error loading elders:", error);
       Swal.fire("Error", "No se pudieron cargar los residentes.", "error");
@@ -42,11 +42,12 @@ export class EventActivityFormComponent {
 
   async onElderSelected(event: Event) {
     const target = event.target as HTMLSelectElement;
-    const id = +target.value;
-    this.selectedElderId.set(id);
+    this.selectedElderId = +target.value;
     try {
-      const response = await this.activitiesService.getActivitiesByElderId(id);
-      this.activities.set(response.actividades || []);
+      const response = await this.activitiesService.getActivitiesByElderId(
+        this.selectedElderId
+      );
+      this.activities = response.actividades || [];
     } catch (error) {
       console.error("Error loading activities:", error);
       Swal.fire("Error", "No se pudieron cargar las actividades.", "error");
@@ -55,40 +56,49 @@ export class EventActivityFormComponent {
 
   onActivitySelected(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selectedActivityId.set(+target.value);
+    this.selectedActivityId = +target.value;
   }
 
   async submitEvent() {
-    if (!this.selectedActivityId() || !this.fechaInicio || !this.fechaFin) {
+    if (
+      !this.selectedElderId ||
+      !this.selectedActivityId ||
+      !this.fechaInicio ||
+      !this.fechaFin
+    ) {
       Swal.fire("Error", "Completa todos los campos requeridos.", "error");
+      return;
+    }
+
+    if (
+      this.eventType === "recurrente" &&
+      (!this.intervaloHoras || !this.repeticiones)
+    ) {
+      Swal.fire(
+        "Error",
+        "Completa todos los campos de evento recurrente.",
+        "error"
+      );
       return;
     }
 
     try {
       if (this.eventType === "individual") {
         await this.eventService.createIndividualEvent({
-          actividad_id: this.selectedActivityId()!,
+          actividad_id: this.selectedActivityId,
           fecha_inicio: this.fechaInicio,
           fecha_fin: this.fechaFin,
           recordatorio: this.recordatorio,
         });
         Swal.fire("Éxito", "Evento individual registrado.", "success");
       } else {
-        if (!this.intervaloHoras || !this.repeticiones) {
-          Swal.fire(
-            "Error",
-            "Completa todos los campos de evento recurrente.",
-            "error"
-          );
-          return;
-        }
         await this.eventService.createRecurrentEvent({
-          actividad_id: this.selectedActivityId()!,
+          actividad_id: this.selectedActivityId,
           fecha_inicio: this.fechaInicio,
           fecha_fin: this.fechaFin,
           recordatorio: this.recordatorio,
-          intervalo_horas: this.intervaloHoras,
-          repeticiones: this.repeticiones,
+          intervalo_horas: this.intervaloHoras!,
+          repeticiones: this.repeticiones!,
         });
         Swal.fire("Éxito", "Evento recurrente registrado.", "success");
       }

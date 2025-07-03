@@ -13,6 +13,8 @@ import { EldersDietComponent } from "./pages/elders-diet/elders-diet.component";
 import { ActivitiesListComponent } from "./pages/activities-list/activities-list.component";
 import { EventActivityFormComponent } from "./pages/event-activity-form/event-activity-form.component";
 import { EventListComponent } from "./pages/event-list/event-list.component";
+import { ElderViewComponent } from "./pages/elder-view/elder-view.component";
+import { EmergencyContactsFormComponent } from "./pages/emergency-contacts-form/emergency-contacts-form.component";
 
 export const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "home" },
@@ -34,6 +36,11 @@ export const routes: Routes = [
       { path: "elderupdate/:_id", component: RegisterElderlyFormComponent },
       { path: "elderevent", component: EventActivityFormComponent },
       { path: "eventlist", component: EventListComponent },
+      { path: "elderview/:id", component: ElderViewComponent },
+      {
+        path: "registeremergencycontact",
+        component: EmergencyContactsFormComponent,
+      },
     ],
   },
   { path: "**", redirectTo: "home" },

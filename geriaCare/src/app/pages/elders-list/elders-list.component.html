@@ -15,7 +15,6 @@
         <th>Género</th>
         <th>Movilidad</th>
         <th>Condiciones Médicas</th>
-        <th>Notas</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -28,13 +27,18 @@
         <td>{{ elder.genero }}</td>
         <td>{{ elder.movilidad || "N/A" }}</td>
         <td>{{ elder.condiciones_medicas || "N/A" }}</td>
-        <td>{{ elder.notas_generales || "N/A" }}</td>
         <td>
           <a
             class="btn btn-sm btn-primary me-2"
             [routerLink]="['/dashboard/elderupdate', elder.id]"
           >
             Actualizar anciano
+          </a>
+          <a
+            class="btn btn-sm btn-info me-2"
+            [routerLink]="['/dashboard/elderview', elder.id]"
+          >
+            Información
           </a>
 
           <button

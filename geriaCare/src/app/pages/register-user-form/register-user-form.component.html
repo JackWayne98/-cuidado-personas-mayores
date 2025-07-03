@@ -1,32 +1,126 @@
 <div class="container vh-100 d-flex align-items-center justify-content-center">
   <div class="w-100" style="max-width: 420px">
-    <h2 class="text-center fw-bold">Welcome</h2>
-    <p class="text-center text-muted mb-4">Fill the form to register</p>
+    <h2 class="text-center fw-bold">Bienvenido</h2>
+    <p class="text-center text-muted mb-4">
+      Complete el formulario para registrarse
+    </p>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control" formControlName="name" placeholder="Name" />
+        <label class="form-label">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          placeholder="Nombre"
+        />
+
+        @if (registerForm.controls['name'].touched &&
+        registerForm.controls['name'].hasError('required')) {
+        <div class="text-danger invalid-feedback d-block">
+          El nombre es obligatorio.
+        </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="lastname"
+          placeholder="Apellido"
+        />
+        @if (registerForm.controls['lastname'].touched &&
+        registerForm.controls['lastname'].hasError('required')) {
+        <div class="text-danger invalid-feedback d-block">
+          El apellido es obligatorio.
+        </div>
+        }
       </div>
       <div class="mb-3">
-        <label class="form-label">Last Name</label>
-        <input type="text" class="form-control" formControlName="lastname" placeholder="Last name" />
+        <label class="form-label">Correo electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="Correo electrónico"
+        />
+
+        @if (registerForm.controls['email'].touched &&
+        registerForm.controls['email'].invalid) {
+        <div class="text-danger invalid-feedback d-block">
+          @if (registerForm.controls['email'].hasError('required')) { El correo
+          es obligatorio. } @if
+          (registerForm.controls['email'].hasError('email')) { Formato de correo
+          inválido. }
+        </div>
+        }
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" formControlName="email" placeholder="Email" />
+        <label class="form-label">Teléfono</label>
+        <input
+          type="tel"
+          class="form-control"
+          formControlName="phone"
+          maxlength="10"
+          pattern="[0-9]*"
+          inputmode="numeric"
+          placeholder="Teléfono"
+        />
+
+        @if (registerForm.controls['phone'].touched &&
+        registerForm.controls['phone'].invalid) {
+        <div class="text-danger invalid-feedback d-block">
+          @if (registerForm.controls['phone'].hasError('required')) { El
+          teléfono es obligatorio. } @if
+          (registerForm.controls['phone'].hasError('pattern')) { El teléfono
+          debe tener exactamente 10 dígitos numéricos. }
+        </div>
+        }
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Phone</label>
-        <input type="phone" class="form-control" formControlName="phone" placeholder="Phone" />
+        <label class="form-label">Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Contraseña"
+        />
+
+        @if (registerForm.controls['password'].touched &&
+        registerForm.controls['password'].invalid) {
+        <div class="text-danger invalid-feedback d-block">
+          @if (registerForm.controls['password'].hasError('required')) { La
+          contraseña es obligatoria. } @if
+          (registerForm.controls['password'].hasError('minlength')) { Debe tener
+          al menos 6 caracteres. }
+        </div>
+        }
       </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control" formControlName="password" placeholder="Password" />
-      </div>
+
       <div class="mb-4">
-        <label class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password" />
+        <label class="form-label">Confirmar contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="confirmPassword"
+          placeholder="Confirmar contraseña"
+        />
+
+        @if (registerForm.controls['confirmPassword'].touched &&
+        registerForm.controls['confirmPassword'].hasError('required')) {
+        <div class="text-danger invalid-feedback d-block">
+          Debe confirmar la contraseña.
+        </div>
+        } @if (registerForm.hasError('passwordMismatch') &&
+        registerForm.controls['confirmPassword'].touched) {
+        <div class="text-danger invalid-feedback d-block">
+          Las contraseñas no coinciden.
+        </div>
+        }
       </div>
       <div class="d-grid">
         <button type="submit" class="btn btn-dark">Submit</button>

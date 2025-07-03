@@ -1,18 +1,20 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/enviroment";
-import { Idiet } from "../interfaces/idiet";
+import { IemergencyContact } from "../interfaces/iemergency-contact";
+import { IemergencyResponse } from "../interfaces/iemergency-response";
 import { lastValueFrom } from "rxjs";
-import { IdietResponse } from "../interfaces/idiet-response";
 
 @Injectable({
   providedIn: "root",
 })
-export class DietService {
+export class EmergencyContactService {
   private http = inject(HttpClient);
-  private endpoint = `${environment.apiUrl}/dietas-alimenticias`;
+  private endpoint = `${environment.apiUrl}/contactos-emergencia`;
 
-  createDiet(diet: Idiet): Promise<Idiet> {
+  createEmergencyContact(
+    contact: IemergencyContact
+  ): Promise<IemergencyContact> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `${token}`,
@@ -20,21 +22,20 @@ export class DietService {
     });
 
     return lastValueFrom(
-      this.http.post<Idiet>(this.endpoint, diet, { headers })
+      this.http.post<IemergencyContact>(this.endpoint, contact, { headers })
     );
   }
-  getDietsByElderId(elderId: number): Promise<IdietResponse> {
+
+  getEmergencyContactsByElderId(elderId: number): Promise<IemergencyResponse> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `${token}`,
     });
 
     return lastValueFrom(
-      this.http.get<IdietResponse>(
+      this.http.get<IemergencyResponse>(
         `${this.endpoint}/persona-mayor/${elderId}`,
-        {
-          headers,
-        }
+        { headers }
       )
     );
   }

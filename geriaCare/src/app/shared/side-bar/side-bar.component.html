@@ -179,6 +179,28 @@
             <span class="nav-text" *ngIf="!isCollapsed">Registrar Evento</span>
           </a>
         </li>
+        <li class="mb-1">
+          <a
+            routerLink="/dashboard/registeremergencycontact"
+            class="nav-link d-flex align-items-center"
+            [class.active]="activeSection === 'register-emergency-contact'"
+            (click)="setActive('register-emergency-contact')"
+          >
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .57 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l1.6-1.12a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.57A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+            <span class="nav-text" *ngIf="!isCollapsed"
+              >Registrar Contacto de Emergencia</span
+            >
+          </a>
+        </li>
       </ul>
     </div>
 

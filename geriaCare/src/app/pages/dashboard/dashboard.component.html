@@ -72,7 +72,35 @@
                 <div class="card-header bg-white border-bottom">
                   <h5 class="card-title mb-0">Recetas Médicas</h5>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                  @for (item of eldersWithPrescriptions(); track item.elder.id)
+                  {
+                  <h6 class="fw-bold">
+                    {{ item.elder.nombre }} {{ item.elder.apellido }}
+                  </h6>
+
+                  @if (item.prescriptions.length > 0) {
+                  <ul class="list-group list-group-flush mb-3">
+                    @for (presc of item.prescriptions; track presc.id) {
+                    <li class="list-group-item">
+                      <strong>{{ presc.medicamento }}</strong> -
+                      {{ presc.dosis }}, {{ presc.frecuencia }}<br />
+                      <small class="text-muted">
+                        Inicio: {{ presc.fecha_inicio | date : "MM-dd-yyyy" }} |
+                        Fin:
+                        {{ presc.fecha_fin | date : "MM-dd-yyyy" }}
+                      </small>
+                    </li>
+                    }
+                  </ul>
+                  } @else {
+                  <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item text-muted">
+                      Este residente no tiene recetas registradas.
+                    </li>
+                  </ul>
+                  } }
+                </div>
               </div>
             </div>
 
@@ -81,7 +109,52 @@
                 <div class="card-header bg-white border-bottom">
                   <h5 class="card-title mb-0">Dietas</h5>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                  @if (isLoading()) {
+                  <div class="text-center">
+                    <div
+                      class="spinner-border text-primary"
+                      role="status"
+                    ></div>
+                    <p class="mt-2">Cargando dietas...</p>
+                  </div>
+                  } @else if (error()) {
+                  <div class="alert alert-danger text-center">
+                    {{ error() }}
+                  </div>
+                  } @else if (eldersWithDiets().length === 0) {
+                  <p class="text-muted text-center mb-0">
+                    No hay dietas registradas.
+                  </p>
+                  } @else { @for (elderData of eldersWithDiets(); track
+                  elderData.elder.id) {
+                  <div class="mb-4">
+                    <h6 class="fw-bold">
+                      {{ elderData.elder.nombre }}
+                      {{ elderData.elder.apellido }}
+                    </h6>
+                    @if (elderData.diets.length > 0) {
+                    <ul class="list-group list-group-flush">
+                      @for (diet of elderData.diets; track diet.id) {
+                      <li class="list-group-item">
+                        <strong>Descripción:</strong> {{ diet.descripcion
+                        }}<br />
+                        <small class="text-muted">
+                          Inicio:
+                          {{ diet.fecha_inicio | date : "MM-dd-yyyy" }} | Fin:
+                          {{ diet.fecha_fin | date : "MM-dd-yyyy" }}
+                        </small>
+                      </li>
+                      }
+                    </ul>
+                    } @else {
+                    <p class="text-muted mb-0 ms-3">
+                      Este residente no tiene dietas registradas.
+                    </p>
+                    }
+                  </div>
+                  } }
+                </div>
               </div>
             </div>
 
