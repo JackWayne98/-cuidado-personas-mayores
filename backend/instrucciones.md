@@ -302,3 +302,22 @@ Method: DELETE
 Url: /api/contactos-emergencia/:id  
 Headers: Authorization: Bearer <token>  
 Response: Confirmación de eliminación
+
+## NOTIFICACIONES
+
+Crear una nueva notificación
+
+Method: POST
+Url: /api/notificaciones
+Headers: Authorization: Bearer
+Body: evento_actividad_id, perfil_usuario_id, mensaje, fecha_envio, leida
+Response: Objeto de la notificación creada
+
+
+### Marcar notificación como leída
+
+Method: PUT
+Url: /api/notificaciones/:notificacionId/leida
+Headers: Authorization: Bearer
+Body: leida
+Response: Confirmación de que el estado leida fue actualizado

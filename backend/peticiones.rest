@@ -332,3 +332,21 @@ Authorization: {{token}}
 ###
 DELETE {{host}}/api/contactos-emergencia/6
 Authorization: {{token}}
+
+
+###########################
+# NOTIFICACIONES #
+###########################
+
+POST {{host}}/api/notificaciones
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "evento_actividad_id": 15
+}
+
+###
+PUT {{host}}/api/notificaciones/123/leida
+Authorization: {{token}}
+Content-Type: application/json

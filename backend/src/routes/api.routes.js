@@ -7,5 +7,6 @@ router.use("/evento-actividad", require("./api/eventoActividad.routes"));
 router.use("/recetas-medicas", require("./api/recetas.routes"));
 router.use("/dietas-alimenticias", require("./api/dietas.routes"));
 router.use("/contactos-emergencia", require("./api/contactosEmergencia.routes"));
+router.use("/notificaciones", require("./api/notificaciones.routes"));
 
 module.exports = router;
