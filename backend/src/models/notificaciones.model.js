@@ -1,3 +1,4 @@
+
 const db = require("../config/db");
 
 const insert = async (
@@ -13,3 +14,22 @@ const insert = async (
   );
   return result;
 };
+
+const selectById = async (id)=>{
+  const [rows] = await db.query(
+    "SELECT * FROM notificacion WHERE id = ?",
+    [id]
+  );
+  return rows[0];
+  
+}
+
+const putAsRead = async (id)=>{
+  const [result] = await db.query(
+    "UPDATE notificacion SET leida = 1 WHERE id = ?",
+    [id]
+  );
+  return result;
+
+}
+module.exports = { insert, selectById, putAsRead };

@@ -48,5 +48,4 @@ coverage/
 # Angular build/cache directories
 geriaCare/.angular/
 
-# Backend notification routes (if temporary)
-backend/src/routes/api/notificaciones.routes.js
+
