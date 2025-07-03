@@ -35,4 +35,42 @@ export class ElderRegisterService {
       this.http.get<{ personasMayores: Ielder[] }>(this.endpoint, { headers })
     );
   }
+  editElder(id: number, data: Partial<Ielder>): Promise<Ielder> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return lastValueFrom(
+      this.http.put<Ielder>(`${this.endpoint}/${id}`, data, { headers })
+    );
+  }
+  getElderById(id: number): Promise<{ personaMayor: Ielder }> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return lastValueFrom(
+      this.http.get<{ personaMayor: Ielder }>(`${this.endpoint}/${id}`, {
+        headers,
+      })
+    );
+  }
+  deleteElderById(id: number): Promise<{ success: boolean; message: string }> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return lastValueFrom(
+      this.http.delete<{ success: boolean; message: string }>(
+        `${this.endpoint}/${id}`,
+        { headers }
+      )
+    );
+  }
 }

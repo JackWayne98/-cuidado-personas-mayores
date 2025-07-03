@@ -1,0 +1,118 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Registrar Evento</h2>
+
+  <!-- Elder Selector -->
+  <div class="mb-3">
+    <label for="elderSelect" class="form-label">Selecciona un residente</label>
+    <select
+      id="elderSelect"
+      class="form-select"
+      (change)="onElderSelected($event)"
+    >
+      <option value="" disabled selected>Selecciona un residente</option>
+      @for (elder of elders(); track elder.id) {
+      <option [value]="elder.id">
+        {{ elder.nombre }} {{ elder.apellido }}
+      </option>
+      }
+    </select>
+  </div>
+
+  <!-- Activities Selector -->
+  @if (activities().length > 0) {
+  <div class="mb-3">
+    <label for="activitySelect" class="form-label"
+      >Selecciona una actividad</label
+    >
+    <select
+      id="activitySelect"
+      class="form-select"
+      (change)="onActivitySelected($event)"
+    >
+      <option value="" disabled selected>Selecciona una actividad</option>
+      @for (activity of activities(); track activity.id) {
+      <option [value]="activity.id">{{ activity.nombre }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <!-- Show event options ONLY if both elder & activity are selected -->
+  @if (selectedElderId() && selectedActivityId()) {
+  <!-- Event Type Selector -->
+  <div class="mb-3">
+    <label class="form-label">Tipo de evento</label>
+    <select class="form-select" [(ngModel)]="eventType" name="eventType">
+      <option value="individual">Evento individual</option>
+      <option value="recurrente">Evento recurrente</option>
+    </select>
+  </div>
+
+  <!-- Event common fields -->
+  <div class="mb-3">
+    <label for="fechaInicio" class="form-label">Fecha y hora de inicio</label>
+    <input
+      id="fechaInicio"
+      type="datetime-local"
+      class="form-control"
+      [(ngModel)]="fechaInicio"
+      name="fechaInicio"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="fechaFin" class="form-label">Fecha y hora de fin</label>
+    <input
+      id="fechaFin"
+      type="datetime-local"
+      class="form-control"
+      [(ngModel)]="fechaFin"
+      name="fechaFin"
+    />
+  </div>
+
+  <div class="mb-3 form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="recordatorio"
+      [(ngModel)]="recordatorio"
+      name="recordatorio"
+    />
+    <label class="form-check-label" for="recordatorio">
+      Enviar recordatorio
+    </label>
+  </div>
+
+  <!-- Recurrent event fields -->
+  @if (eventType === 'recurrente') {
+  <div class="mb-3">
+    <label for="intervaloHoras" class="form-label">Intervalo (horas)</label>
+    <input
+      id="intervaloHoras"
+      type="number"
+      class="form-control"
+      [(ngModel)]="intervaloHoras"
+      name="intervaloHoras"
+      min="1"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="repeticiones" class="form-label">Repeticiones</label>
+    <input
+      id="repeticiones"
+      type="number"
+      class="form-control"
+      [(ngModel)]="repeticiones"
+      name="repeticiones"
+      min="1"
+    />
+  </div>
+  }
+
+  <button class="btn btn-primary" (click)="submitEvent()">
+    Registrar Evento
+  </button>
+  }
+</div>

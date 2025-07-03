@@ -42,6 +42,7 @@ export class LoginFormComponent {
     try {
       const response = await this.authService.login(email!, password!);
       localStorage.setItem('token', response.token);
+      localStorage.setItem('user_id', response.user.id?.toString() || '');
       Swal.fire('Welcome!', 'Login successful.', 'success').then(() => {
         this.router.navigate(['/dashboard']);
       });

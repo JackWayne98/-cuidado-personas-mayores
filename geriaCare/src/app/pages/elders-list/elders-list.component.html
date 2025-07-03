@@ -16,6 +16,7 @@
         <th>Movilidad</th>
         <th>Condiciones Médicas</th>
         <th>Notas</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +29,22 @@
         <td>{{ elder.movilidad || "N/A" }}</td>
         <td>{{ elder.condiciones_medicas || "N/A" }}</td>
         <td>{{ elder.notas_generales || "N/A" }}</td>
+        <td>
+          <a
+            class="btn btn-sm btn-primary me-2"
+            [routerLink]="['/dashboard/elderupdate', elder.id]"
+          >
+            Actualizar anciano
+          </a>
+
+          <button
+            class="btn btn-sm btn-danger"
+            [disabled]="!elder.id"
+            (click)="elder.id && confirmDelete(elder.id)"
+          >
+            Eliminar
+          </button>
+        </td>
       </tr>
       }
     </tbody>

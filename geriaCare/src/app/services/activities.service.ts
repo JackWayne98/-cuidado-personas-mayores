@@ -11,12 +11,10 @@ export class ActivitiesService {
   private http = inject(HttpClient);
   private endpoint = `${environment.apiUrl}/actividades`;
 
-  createActivity(
-    data: Iactivity
-  ): Promise<{ success: boolean; message: string; actividad: Iactivity }> {
+  createActivity(data: Iactivity): Promise<Iactivity> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
-      Authorization: `${token}`,
+      Authorization: `${token}`, // no Bearer prefix as you requested
       "Content-Type": "application/json",
     });
     return lastValueFrom(
@@ -38,6 +36,13 @@ export class ActivitiesService {
       this.http.get<any>(`${this.endpoint}/persona-mayor/${elderId}`, {
         headers,
       })
+    );
+  }
+  getActivityById(id: number): Promise<{ actividad: any }> {
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders({ Authorization: `${token}` });
+    return lastValueFrom(
+      this.http.get<{ actividad: any }>(`${this.endpoint}/${id}`, { headers })
     );
   }
 }
