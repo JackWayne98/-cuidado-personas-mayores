@@ -174,11 +174,11 @@ Headers: Authorization: Bearer
 Response: Confirmación de eliminación y datos del evento eliminado
 
 ### Eliminar eventos recurrentes por grupo de recurrencia
+
 Method: DELETE
 Url: /api/evento-actividad/recurrentes/:grupo_recurrencia_id
 Headers: Authorization: Bearer
 Response: Mensaje confirmando la eliminación o error si no se encuentran eventos con ese grupo.
-
 
 ---
 
@@ -259,5 +259,46 @@ Response: Objeto de dieta alimenticia actualizada
 
 Method: DELETE  
 Url: /api/dietas-alimenticias/:id  
+Headers: Authorization: Bearer <token>  
+Response: Confirmación de eliminación
+
+---
+
+## CONTACTOS DE EMERGENCIA
+
+### Crear un nuevo contacto de emergencia
+
+Method: POST  
+Url: /api/contactos-emergencia  
+Headers: Authorization: Bearer <token>  
+Body: persona_mayor_id, nombre, telefono, relacion, es_medico  
+Response: Objeto del contacto creado
+
+### Obtener contactos de emergencia de una persona mayor
+
+Method: GET  
+Url: /api/contactos-emergencia/persona-mayor/:elderId  
+Headers: Authorization: Bearer <token>  
+Response: Array con contactos asociados a la persona mayor
+
+### Obtener un contacto de emergencia por ID
+
+Method: GET  
+Url: /api/contactos-emergencia/:id  
+Headers: Authorization: Bearer <token>  
+Response: Objeto del contacto
+
+### Actualizar un contacto de emergencia
+
+Method: PUT  
+Url: /api/contactos-emergencia/:id  
+Headers: Authorization: Bearer <token>  
+Body: nombre, telefono, relacion, es_medico  
+Response: Objeto actualizado del contacto
+
+### Eliminar un contacto de emergencia
+
+Method: DELETE  
+Url: /api/contactos-emergencia/:id  
 Headers: Authorization: Bearer <token>  
 Response: Confirmación de eliminación

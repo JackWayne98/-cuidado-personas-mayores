@@ -1,6 +1,6 @@
 
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE3NzU4OTEsImlhdCI6MTc1MTM0Mzg5MX0.5x69VIF7pB2V4RF3cpnGdLT9iDSCieTZRPUZalgWVHQ
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE4NjA4NDksImlhdCI6MTc1MTQyODg0OX0.7FYZ3TLu6WWjit6j-t-klq9AS6XgHoOjWhyOUaQ0C34
 
 ############
 # USUARIOS #
@@ -220,7 +220,7 @@ Authorization: {{token}}
 }
 
 ###
-GET {{host}}/api/recetas-medicas/persona-mayor/2
+GET {{host}}/api/recetas-medicas/persona-mayor/3
 Authorization: {{token}}
 
 ###
@@ -290,4 +290,45 @@ Authorization: {{token}}
 
 ###
 DELETE {{host}}/api/dietas-alimenticias/2
+Authorization: {{token}}
+
+###########################
+# CONTACTOS DE EMERGENCIA #
+###########################
+
+###
+POST {{host}}/api/contactos-emergencia
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 3,
+  "nombre": "Valentina Torres",
+  "telefono": "0966666666",
+  "relacion": "sobrina",
+  "es_medico": 1
+}
+
+###
+GET {{host}}/api/contactos-emergencia/persona-mayor/8
+Authorization: {{token}}
+
+###
+GET {{host}}/api/contactos-emergencia/8
+Authorization: {{token}}
+
+###
+PUT {{host}}/api/contactos-emergencia/7
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Valentina Torres",
+  "telefono": "0966666666",
+  "relacion": "prima",
+  "es_medico": 1
+}
+
+###
+DELETE {{host}}/api/contactos-emergencia/6
 Authorization: {{token}}
