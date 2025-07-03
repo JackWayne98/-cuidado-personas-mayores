@@ -11,20 +11,16 @@ export class ActivitiesService {
   private http = inject(HttpClient);
   private endpoint = `${environment.apiUrl}/actividades`;
 
-  createActivity(data: Iactivity): Promise<Iactivity> {
-    const token = localStorage.getItem("token");
-    const headers = new HttpHeaders({
-      Authorization: `${token}`, // no Bearer prefix as you requested
-      "Content-Type": "application/json",
-    });
-    return lastValueFrom(
-      this.http.post<{
-        success: boolean;
-        message: string;
-        actividad: Iactivity;
-      }>(this.endpoint, data, { headers })
-    );
-  }
+createActivity(data: Iactivity): Promise<{ success: boolean; message: string; actividad: Iactivity }> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    Authorization: `${token}`,
+    'Content-Type': 'application/json',
+  });
+  return lastValueFrom(
+    this.http.post<{ success: boolean; message: string; actividad: Iactivity }>(this.endpoint, data, { headers })
+  );
+}
 
   getActivitiesByElderId(elderId: number): Promise<any> {
     const token = localStorage.getItem("token");
