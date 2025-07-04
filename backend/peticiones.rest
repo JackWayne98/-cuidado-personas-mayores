@@ -303,11 +303,11 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "persona_mayor_id": 3,
-  "nombre": "Valentina Torres",
-  "correo": "valentina.torres@example.com",
+  "persona_mayor_id": 10,
+  "nombre": "Santiago Raúl",
+  "correo": "santiago.rhp7@gmail.com",
   "telefono": "0966666666",
-  "relacion": "sobrina",
+  "relacion": "Sobrino favorito",
   "es_medico": 1
 }
 
@@ -320,19 +320,21 @@ GET {{host}}/api/contactos-emergencia/8
 Authorization: {{token}}
 
 ###
-PUT {{host}}/api/contactos-emergencia/7
+###
+PUT {{host}}/api/contactos-emergencia/20
 Content-Type: application/json
 Authorization: {{token}}
 
 {
   "nombre": "Valentina Torres",
+  "correo": "wicky13@gmail.com",
   "telefono": "0966666666",
   "relacion": "prima",
   "es_medico": 1
 }
 
 ###
-DELETE {{host}}/api/contactos-emergencia/6
+DELETE {{host}}/api/contactos-emergencia/18
 Authorization: {{token}}
 
 
