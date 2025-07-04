@@ -141,7 +141,6 @@ Headers: Authorization: Bearer
 Params: grupo_recurrencia_id (UUID del grupo de recurrencia)
 Response: Lista de eventos actividad asociados al grupo de recurrencia
 
-
 ### Editar eventos de un grupo de recurrencia
 
 Method: PUT  
@@ -271,7 +270,7 @@ Response: Confirmación de eliminación
 Method: POST  
 Url: /api/contactos-emergencia  
 Headers: Authorization: Bearer <token>  
-Body: persona_mayor_id, nombre, telefono, relacion, es_medico  
+Body: persona_mayor_id, nombre, correo, telefono, relacion, es_medico  
 Response: Objeto del contacto creado
 
 ### Obtener contactos de emergencia de una persona mayor
@@ -293,7 +292,7 @@ Response: Objeto del contacto
 Method: PUT  
 Url: /api/contactos-emergencia/:id  
 Headers: Authorization: Bearer <token>  
-Body: nombre, telefono, relacion, es_medico  
+Body: nombre, correo, telefono, relacion, es_medico  
 Response: Objeto actualizado del contacto
 
 ### Eliminar un contacto de emergencia
@@ -312,7 +311,6 @@ Url: /api/notificaciones
 Headers: Authorization: Bearer
 Body: evento_actividad_id, perfil_usuario_id, mensaje, fecha_envio, leida
 Response: Objeto de la notificación creada
-
 
 ### Marcar notificación como leída
 

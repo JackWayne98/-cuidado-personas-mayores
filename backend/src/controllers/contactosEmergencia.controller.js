@@ -1,4 +1,6 @@
 const dayjs = require("dayjs");
+const enviarCorreo = require("../utils/mailer");
+
 const Contacto = require("../models/contactosEmergencia.model");
 const PersonaMayor = require("../models/personasMayores.model");
 
@@ -7,6 +9,7 @@ const create = async (req, res) => {
         const {
             persona_mayor_id,
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico
@@ -28,6 +31,7 @@ const create = async (req, res) => {
         const nuevoContacto = {
             persona_mayor_id,
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico,
@@ -40,6 +44,55 @@ const create = async (req, res) => {
         const result = await Contacto.insert(nuevoContacto);
         const contactoId = result.insertId;
         const contacto = await Contacto.selectById(contactoId);
+
+        const calcularEdad = (fechaNacimiento) => {
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            const m = hoy.getMonth() - nacimiento.getMonth();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            return edad;
+        };
+
+        const edad = calcularEdad(personaMayor.fecha_nacimiento);
+
+        // Enviar correo al nuevo contacto
+        await enviarCorreo(
+            correo,
+            "Ha sido registrado como contacto de emergencia",
+            `
+  <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+    <h2 style="color: #2c3e50;">Hola ${nombre},</h2>
+    <p style="font-size: 16px;">
+      Has sido registrado como <strong>contacto de emergencia</strong> en la plataforma <strong>Geriacare</strong>.
+    </p>
+
+    <h3 style="color: #2980b9;">🧓 Información de la persona mayor</h3>
+    <ul style="font-size: 15px; line-height: 1.5;">
+      <li><strong>Nombre:</strong> ${personaMayor.nombre} ${personaMayor.apellido || ''}</li>
+      <li><strong>Edad:</strong> ${edad} años</li>
+      <li><strong>Condiciones médicas:</strong> ${personaMayor.condiciones_medicas || 'No registradas'}</li>
+    </ul>
+
+    <h3 style="color: #2980b9;">📇 Tus datos registrados</h3>
+    <ul style="font-size: 15px; line-height: 1.5;">
+      <li><strong>Relación:</strong> ${relacion}</li>
+      <li><strong>Teléfono:</strong> ${telefono}</li>
+      ${es_medico ? "<li><strong>Observación:</strong> Este contacto ha sido marcado como médico de referencia.</li>" : ""}
+    </ul>
+
+    <p style="font-size: 15px;">
+      Por favor, mantente atento(a) ante cualquier notificación relacionada con esta persona.
+    </p>
+
+    <p style="font-size: 13px; color: #888; margin-top: 30px;">
+      Este es un mensaje automático generado por Geriacare.
+    </p>
+  </div>
+  `
+        );
 
         res.status(201).json({
             success: true,
@@ -100,6 +153,7 @@ const update = async (req, res) => {
         const { id } = req.params;
         const {
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico
@@ -118,6 +172,7 @@ const update = async (req, res) => {
 
         const datos = {
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico,
@@ -127,6 +182,57 @@ const update = async (req, res) => {
 
         await Contacto.update(id, datos);
         const contactoActualizado = await Contacto.selectById(id);
+
+        const calcularEdad = (fechaNacimiento) => {
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            const m = hoy.getMonth() - nacimiento.getMonth();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            return edad;
+        };
+
+        // Enviar correo al nuevo contacto
+
+        const personaMayor = await PersonaMayor.selectById(contacto.persona_mayor_id);
+        const edad = calcularEdad(personaMayor.fecha_nacimiento);
+
+        await enviarCorreo(
+            contactoActualizado.correo,
+            "Tu información como contacto de emergencia ha sido actualizada",
+            `
+  <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+    <h2 style="color: #2c3e50;">Hola ${contacto.nombre},</h2>
+    <p style="font-size: 16px;">
+      Tu información como <strong>contacto de emergencia</strong> ha sido actualizada en la plataforma <strong>Geriacare</strong>.
+    </p>
+
+    <h3 style="color: #2980b9;">📇 Datos actuales registrados</h3>
+    <ul style="font-size: 15px; line-height: 1.5;">
+      <li><strong>Relación:</strong> ${contacto.relacion}</li>
+      <li><strong>Teléfono:</strong> ${contacto.telefono}</li>
+      ${contacto.es_medico ? "<li><strong>Observación:</strong> Este contacto ha sido marcado como médico de referencia.</li>" : ""}
+    </ul>
+
+    <h3 style="color: #2980b9;">🧓 Persona mayor asociada</h3>
+    <ul style="font-size: 15px; line-height: 1.5;">
+      <li><strong>Nombre:</strong> ${personaMayor.nombre} ${personaMayor.apellido || ''}</li>
+      <li><strong>Edad:</strong> ${edad} años</li>
+      <li><strong>Condiciones médicas:</strong> ${personaMayor.condiciones_medicas || 'No registradas'}</li>
+    </ul>
+
+    <p style="font-size: 15px;">
+      Si tú no solicitaste esta modificación, por favor comunícate con el responsable de la cuenta.
+    </p>
+
+    <p style="font-size: 13px; color: #888; margin-top: 30px;">
+      Este es un mensaje automático generado por Geriacare.
+    </p>
+  </div>
+  `
+        );
 
         res.status(200).json({
             success: true,
