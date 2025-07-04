@@ -297,6 +297,7 @@ Authorization: {{token}}
 ###########################
 
 ###
+###
 POST {{host}}/api/contactos-emergencia
 Content-Type: application/json
 Authorization: {{token}}
@@ -304,6 +305,7 @@ Authorization: {{token}}
 {
   "persona_mayor_id": 3,
   "nombre": "Valentina Torres",
+  "correo": "valentina.torres@example.com",
   "telefono": "0966666666",
   "relacion": "sobrina",
   "es_medico": 1

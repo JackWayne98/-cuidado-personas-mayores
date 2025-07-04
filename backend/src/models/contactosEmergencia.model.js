@@ -3,6 +3,7 @@ const db = require('../config/db');
 const insert = async ({
     persona_mayor_id,
     nombre,
+    correo,
     telefono,
     relacion,
     es_medico,
@@ -13,13 +14,14 @@ const insert = async ({
 }) => {
     const query = `
         INSERT INTO contacto_emergencia
-        (persona_mayor_id, nombre, telefono, relacion, es_medico, creado_por, modificado_por, fecha_creacion, fecha_modificacion)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (persona_mayor_id, nombre, correo, telefono, relacion, es_medico, creado_por, modificado_por, fecha_creacion, fecha_modificacion)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const [result] = await db.query(query, [
         persona_mayor_id,
         nombre,
+        correo,
         telefono,
         relacion,
         es_medico,
@@ -47,6 +49,7 @@ const selectByPersonaMayorId = async (persona_mayor_id) => {
 const update = async (id, datos) => {
     const {
         nombre,
+        correo,
         telefono,
         relacion,
         es_medico,
@@ -56,12 +59,13 @@ const update = async (id, datos) => {
 
     const query = `
         UPDATE contacto_emergencia
-        SET nombre = ?, telefono = ?, relacion = ?, es_medico = ?, modificado_por = ?, fecha_modificacion = ?
+        SET nombre = ?, correo = ?, telefono = ?, relacion = ?, es_medico = ?, modificado_por = ?, fecha_modificacion = ?
         WHERE id = ?
     `;
 
     const [result] = await db.query(query, [
         nombre,
+        correo,
         telefono,
         relacion,
         es_medico,

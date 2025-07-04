@@ -7,6 +7,7 @@ const create = async (req, res) => {
         const {
             persona_mayor_id,
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico
@@ -28,6 +29,7 @@ const create = async (req, res) => {
         const nuevoContacto = {
             persona_mayor_id,
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico,
@@ -100,6 +102,7 @@ const update = async (req, res) => {
         const { id } = req.params;
         const {
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico
@@ -118,6 +121,7 @@ const update = async (req, res) => {
 
         const datos = {
             nombre,
+            correo,
             telefono,
             relacion,
             es_medico,
