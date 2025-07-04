@@ -1,0 +1,166 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="w-100" style="max-width: 420px">
+      <h2 class="text-center fw-bold">
+        {{
+          isEditMode()
+            ? "Actualizar Persona Mayor"
+            : "Registro de Persona Mayor"
+        }}
+      </h2>
+      <p class="text-center text-muted mb-4">
+        {{
+          isEditMode()
+            ? "Completa el formulario para actualizar la información de la persona mayor"
+            : "Completa el formulario para registrar a una persona mayor"
+        }}
+      </p>
+
+      <form [formGroup]="elderForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            [class.is-invalid]="
+              elderForm.get('nombre')?.touched &&
+              elderForm.get('nombre')?.invalid
+            "
+            formControlName="nombre"
+            placeholder="Nombre"
+          />
+          @if (elderForm.get('nombre')?.touched &&
+          elderForm.get('nombre')?.invalid) {
+          <small class="text-danger">El nombre es obligatorio.</small>
+          }
+        </div>
+
+        <!-- Apellido -->
+        <div class="mb-3">
+          <label class="form-label">Apellido</label>
+          <input
+            type="text"
+            class="form-control"
+            [class.is-invalid]="
+              elderForm.get('apellido')?.touched &&
+              elderForm.get('apellido')?.invalid
+            "
+            formControlName="apellido"
+            placeholder="Apellido"
+          />
+          @if (elderForm.get('apellido')?.touched &&
+          elderForm.get('apellido')?.invalid) {
+          <small class="text-danger">El apellido es obligatorio.</small>
+          }
+        </div>
+
+        <!-- Fecha de nacimiento -->
+        <div class="mb-3">
+          <label class="form-label">Fecha de nacimiento</label>
+          <input
+            type="date"
+            class="form-control"
+            [class.is-invalid]="
+              elderForm.get('fecha_nacimiento')?.touched &&
+              elderForm.get('fecha_nacimiento')?.invalid
+            "
+            formControlName="fecha_nacimiento"
+          />
+          @if (elderForm.get('fecha_nacimiento')?.touched &&
+          elderForm.get('fecha_nacimiento')?.invalid) {
+          <small class="text-danger"
+            >La fecha de nacimiento es obligatoria.</small
+          >
+          }
+        </div>
+
+        <!-- Género -->
+        <div class="mb-3">
+          <label class="form-label">Género</label>
+          <select
+            class="form-select"
+            [class.is-invalid]="
+              elderForm.get('genero')?.touched &&
+              elderForm.get('genero')?.invalid
+            "
+            formControlName="genero"
+          >
+            <option value="" disabled selected>Seleccionar</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+          </select>
+          @if (elderForm.get('genero')?.touched &&
+          elderForm.get('genero')?.invalid) {
+          <small class="text-danger">El género es obligatorio.</small>
+          }
+        </div>
+
+        <!-- Movilidad -->
+        <div class="mb-3">
+          <label class="form-label">Movilidad</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="movilidad"
+            placeholder="Estado de movilidad"
+          />
+        </div>
+
+        <!-- Relación -->
+        <div class="mb-3">
+          <label class="form-label">Relación</label>
+          <select
+            class="form-select"
+            [class.is-invalid]="
+              elderForm.get('relacion')?.touched &&
+              elderForm.get('relacion')?.invalid
+            "
+            formControlName="relacion"
+          >
+            <option value="" disabled selected>Seleccionar relación</option>
+            <option value="familiar">Familiar</option>
+            <option value="cuidador">Cuidador</option>
+            <option value="profesional_salud">Profesional de la salud</option>
+          </select>
+          @if (elderForm.get('relacion')?.touched &&
+          elderForm.get('relacion')?.invalid) {
+          <small class="text-danger">La relación es obligatoria.</small>
+          }
+        </div>
+
+        <!-- Condiciones médicas -->
+        <div class="mb-3">
+          <label class="form-label">Condiciones médicas</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            formControlName="condiciones_medicas"
+            placeholder="Condiciones médicas relevantes"
+          ></textarea>
+        </div>
+
+        <!-- Notas generales -->
+        <div class="mb-4">
+          <label class="form-label">Notas generales</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            formControlName="notas_generales"
+            placeholder="Notas adicionales"
+          ></textarea>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-dark">
+            {{
+              isEditMode()
+                ? "Actualizar Persona Mayor"
+                : "Registrar Persona Mayor"
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
