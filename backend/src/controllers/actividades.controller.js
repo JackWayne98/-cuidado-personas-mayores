@@ -25,6 +25,14 @@ const create = async (req, res) => {
       });
     }
 
+    const actividadExistente = await Actividad.findByUniqueFields(nombre, categoria, descripcion);
+    if (actividadExistente) {
+      return res.status(409).json({
+        success: false,
+        message: "Ya existe una actividad registrada con estos datos",
+      });
+    }
+
     const fecha_creacion = dayjs().format("YYYY-MM-DD HH:mm:ss");
     const creado_por = req.user.id;
 
@@ -73,28 +81,49 @@ const getById = async (req, res) => {
 };
 
 const getByUser = async (req, res) => {
-    try {
-        const actividades = await Actividad.selectByUser(req.user.id);
-        if (!actividades || actividades.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "No se encontraron actividades para este usuario",
-                actividades: [],
-            });
-        }
-        res.status(200).json({
-            success: true,
-            actividades
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+  try {
+    const actividades = await Actividad.selectByUser(req.user.id);
+    if (!actividades || actividades.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No se encontraron actividades para este usuario",
+        actividades: [],
+      });
     }
+    res.status(200).json({
+      success: true,
+      actividades
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getAll = async (req, res) => {
+  try {
+    const actividades = await Actividad.selectAll();
+
+    if (!actividades || actividades.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No hay actividades registradas",
+        actividades: []
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      actividades
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { persona_mayor_id, nombre, categoria, descripcion } = req.body;
+    const { nombre, categoria, descripcion } = req.body;
 
     const actividadExistente = await Actividad.selectById(id);
     if (!actividadExistente) {
@@ -122,12 +151,20 @@ const update = async (req, res) => {
       });
     }
 
+    const actividadDuplicada = await Actividad.findByUniqueFields(nombre, categoria, descripcion);
+    if (actividadDuplicada && actividadDuplicada.id !== parseInt(id)) {
+      return res.status(409).json({
+        success: false,
+        message: "Ya existe otra actividad con estos datos",
+      });
+    }
+
+
     const modificado_por = req.user.id;
     const fecha_modificacion = dayjs().format("YYYY-MM-DD HH:mm:ss");
 
     const datosActualizados = {
       nombre,
-      persona_mayor_id,
       categoria,
       descripcion,
       modificado_por,
@@ -172,4 +209,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { create, getById, getByUser, update, remove };
+module.exports = { create, getById, getByUser, update, remove, getAll };

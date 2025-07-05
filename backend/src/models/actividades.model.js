@@ -14,6 +14,14 @@ const insert = async ({
   return result;
 };
 
+const findByUniqueFields = async (nombre, categoria, descripcion) => {
+  const [result] = await db.query(
+    "SELECT * FROM actividad WHERE nombre = ? AND categoria = ? AND descripcion = ?",
+    [nombre, categoria, descripcion]
+  );
+  return result[0];
+};
+
 const selectById = async (id) => {
   const [result] = await db.query("SELECT * FROM actividad WHERE id = ?", [id]);
   if (result.length === 0) return null;
@@ -22,9 +30,14 @@ const selectById = async (id) => {
 
 const selectByUser = async (perfil_usuario_id) => {
   const [result] = await db.query(
-    "SELECT DISTINCT a.nombre FROM evento_actividad ea JOIN actividad a ON ea.actividad_id = a.id WHERE ea.perfil_usuario_id = ? ORDER BY a.nombre;",
+    "SELECT a.nombre, a.categoria, a.descripcion FROM evento_actividad ea JOIN actividad a ON ea.actividad_id = a.id WHERE ea.perfil_usuario_id = ? ORDER BY a.nombre;",
     [perfil_usuario_id]
   );
+  return result;
+};
+
+const selectAll = async () => {
+  const [result] = await db.query("SELECT * FROM actividad");
   return result;
 };
 
@@ -56,4 +69,4 @@ const remove = async (id) => {
   return result;
 };
 
-module.exports = { insert, selectById, selectByUser, update, remove };
+module.exports = { insert, selectById, selectByUser, update, remove, selectAll, findByUniqueFields };
