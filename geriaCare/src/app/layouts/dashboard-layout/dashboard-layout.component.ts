@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SideBarComponent } from '../../shared/side-bar/side-bar.component';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,27 @@ import { CommonModule } from '@angular/common';
 export class DashboardLayoutComponent {
   isCollapsed = false;
   isMobileMenuVisible = true;
+
+  constructor() {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize(): void {
+    const width = window.innerWidth;
+
+    if (width > 768) {
+      // En desktop, forzamos visibilidad del sidebar
+      this.isMobileMenuVisible = true;
+    } else {
+      // En mobile, ocultamos el sidebar por defecto
+      this.isMobileMenuVisible = false;
+    }
+  }
 
   toggleSidebar() {
     if (window.innerWidth <= 768) {
