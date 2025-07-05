@@ -1,17 +1,24 @@
 import { Component } from '@angular/core';
-import { SideBarComponent } from '../../shared/side-bar/side-bar.component';
 import { RouterOutlet } from '@angular/router';
+import { SideBarComponent } from '../../shared/side-bar/side-bar.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [SideBarComponent, RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, SideBarComponent],
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.css',
 })
 export class DashboardLayoutComponent {
   isCollapsed = false;
+  isMobileMenuVisible = true;
 
   toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
+    if (window.innerWidth <= 768) {
+      this.isMobileMenuVisible = !this.isMobileMenuVisible;
+    } else {
+      this.isCollapsed = !this.isCollapsed;
+    }
   }
 }

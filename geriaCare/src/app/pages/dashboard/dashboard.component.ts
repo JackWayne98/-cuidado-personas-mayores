@@ -36,7 +36,7 @@ export class DashboardComponent {
   isLoading = signal(true);
   error = signal<string | null>(null);
 
-  activitiesMap = new Map<number, Iactivity>(); // ✅ Expose activities map for template
+  activitiesMap = new Map<number, Iactivity>();
 
   private loadDashboardEffect = effect(async () => {
     this.isLoading.set(true);
@@ -104,7 +104,7 @@ export class DashboardComponent {
       if (elders.length === 0) return;
 
       const eventsResponse = await this.eventService.getAllEvents();
-      this.activitiesMap.clear(); // ✅ clear previous activities
+      this.activitiesMap.clear(); 
       const today = new Date().toISOString().split("T")[0];
       const eventsToday: IeventResponse[] = [];
 

@@ -2,6 +2,9 @@ import { Component, Output, EventEmitter, Input, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Iuser } from '../../interfaces/iuser';
+import { signal, effect } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -12,22 +15,41 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent {
   router = inject(Router);
-  @Input() isOpen = false;
-  @Output() sectionChange = new EventEmitter<string>();
+  private authService = inject(AuthService);
 
-  isCollapsed = false;
+  @Input() isCollapsed = false;
+  @Input() isMobileMenuVisible = true;
+  @Output() sectionChange = new EventEmitter<string>();
+  @Output() toggleSidebarRequest = new EventEmitter<void>();
+
   activeSection = 'dashboard';
 
+  user = signal<Iuser | null>(null);
+
+  constructor() {
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+      this.authService.getUserById(+userId).then((res) => {
+        this.user.set(res.user);
+      });
+    }
+  }
+
   toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
+    this.toggleSidebarRequest.emit();
   }
 
   setActive(section: string) {
     this.activeSection = section;
     this.sectionChange.emit(section);
   }
+
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
+  }
+
+  isMobile(): boolean {
+    return window.innerWidth <= 768;
   }
 }

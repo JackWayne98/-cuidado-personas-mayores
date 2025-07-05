@@ -1,9 +1,10 @@
 <div
   class="sidebar d-flex flex-column"
   [class.collapsed]="isCollapsed"
+  [class.hidden-mobile]="!isMobileMenuVisible && isMobile()"
   style="width: 280px"
 >
-  <div class="p-2 text-end">
+  <div class="p-2 text-end d-none d-md-block">
     <button class="btn btn-sm btn-outline-secondary" (click)="toggleSidebar()">
       <svg
         *ngIf="isCollapsed"
@@ -38,7 +39,7 @@
 
   <!-- User Profile -->
   <div class="user-profile p-3 text-center" *ngIf="!isCollapsed">
-    <h6 class="mb-1 fw-semibold">Usuario</h6>
+    <h6 class="mb-1 fw-semibold"> {{ user()?.nombre }} </h6>
     <p class="text-muted small mb-2">Coordinador de Cuidados</p>
     <span class="status-online d-inline-flex align-items-center ps-3"
       >En línea</span
