@@ -1,6 +1,6 @@
 
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTE4NjA4NDksImlhdCI6MTc1MTQyODg0OX0.7FYZ3TLu6WWjit6j-t-klq9AS6XgHoOjWhyOUaQ0C34
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTIxMTgyODYsImlhdCI6MTc1MTY4NjI4Nn0.fnrhZbkNwUgNnt_Int73txconiJjGww6lNPS53W2otM
 
 ############
 # USUARIOS #
@@ -82,11 +82,7 @@ Authorization: {{token}}
 ###############
 
 ###
-GET {{host}}/api/actividades/persona-mayor/9
-Authorization: {{token}}
-
-###
-GET {{host}}/api/actividades/6
+GET {{host}}/api/actividades/5
 Authorization: {{token}}
 
 ###
@@ -95,23 +91,20 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "persona_mayor_id": 9,
-  "nombre": "Training",
-  "categoria": "ocio",
-  "descripcion": "Estiramientos suaves de 30 minutos",
-  "es_recurrente": 0
+  "nombre": "Ejercicio Matutino",
+  "categoria": "ejercicio",
+  "descripcion": "Sesión de estiramientos de 30 minutos"
 }
 
 ###
-PUT {{host}}/api/actividades/6
+PUT {{host}}/api/actividades/42
 Content-Type: application/json
 Authorization: {{token}}
 
 {
   "nombre": "Ejercicio de memoria 2",
   "categoria": "terapia",
-  "descripcion": "Actividades para estimular la memoria y concentración",
-  "es_recurrente": 1
+  "descripcion": "Actividades para estimular la memoria y concentración"
 }
 
 ###
