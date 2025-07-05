@@ -1,9 +1,10 @@
 <div
   class="sidebar d-flex flex-column"
   [class.collapsed]="isCollapsed"
+  [class.hidden-mobile]="!isMobileMenuVisible && isMobile()"
   style="width: 280px"
 >
-  <div class="p-2 text-end">
+  <div class="p-2 text-end d-none d-md-block">
     <button class="btn btn-sm btn-outline-secondary" (click)="toggleSidebar()">
       <svg
         *ngIf="isCollapsed"

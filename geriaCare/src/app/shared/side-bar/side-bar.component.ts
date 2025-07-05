@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, inject } from '@angular/core';
+import { Component, Output, EventEmitter, Input, inject, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,22 +12,29 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent {
   router = inject(Router);
-  @Input() isOpen = false;
-  @Output() sectionChange = new EventEmitter<string>();
 
-  isCollapsed = false;
+  @Input() isCollapsed = false;
+  @Input() isMobileMenuVisible = true;
+  @Output() sectionChange = new EventEmitter<string>();
+  @Output() toggleSidebarRequest = new EventEmitter<void>();
+
   activeSection = 'dashboard';
 
   toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
+    this.toggleSidebarRequest.emit();
   }
 
   setActive(section: string) {
     this.activeSection = section;
     this.sectionChange.emit(section);
   }
+
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
+  }
+
+  isMobile(): boolean {
+    return window.innerWidth <= 768;
   }
 }
