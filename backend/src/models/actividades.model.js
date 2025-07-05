@@ -30,7 +30,7 @@ const selectById = async (id) => {
 
 const selectByUser = async (perfil_usuario_id) => {
   const [result] = await db.query(
-    "SELECT a.nombre, a.categoria, a.descripcion FROM evento_actividad ea JOIN actividad a ON ea.actividad_id = a.id WHERE ea.perfil_usuario_id = ? ORDER BY a.nombre;",
+    "SELECT a.* FROM evento_actividad ea JOIN actividad a ON ea.actividad_id = a.id WHERE ea.perfil_usuario_id = ? ORDER BY a.nombre;",
     [perfil_usuario_id]
   );
   return result;
