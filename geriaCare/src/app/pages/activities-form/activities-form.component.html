@@ -6,38 +6,12 @@
     <p class="text-center text-muted mb-4">
       {{
         isEditMode()
-          ? "Completa el formulario para actualizar la actividad del anciano."
-          : "Completa el formulario para registrar una actividad para un anciano."
+          ? "Completa el formulario para actualizar la actividad."
+          : "Completa el formulario para registrar una nueva actividad."
       }}
     </p>
 
     <form [formGroup]="activitiesForm" (ngSubmit)="onSubmit()">
-      <!-- Anciano -->
-      <div class="mb-3">
-        <label class="form-label">Anciano</label>
-        <select
-          class="form-select"
-          formControlName="persona_mayor_id"
-          [class.is-invalid]="
-            activitiesForm.get('persona_mayor_id')?.invalid &&
-            activitiesForm.get('persona_mayor_id')?.touched
-          "
-        >
-          <option value="" disabled selected>Selecciona un anciano</option>
-          @for (elder of elders; track elder.id) {
-          <option [value]="elder.id">
-            {{ elder.nombre }} {{ elder.apellido }}
-          </option>
-          }
-        </select>
-        @if (activitiesForm.get('persona_mayor_id')?.invalid &&
-        activitiesForm.get('persona_mayor_id')?.touched) {
-        <div class="invalid-feedback d-block">
-          Debes seleccionar un anciano.
-        </div>
-        }
-      </div>
-
       <!-- Nombre de la actividad -->
       <div class="mb-3">
         <label class="form-label">Nombre de la actividad</label>
@@ -102,29 +76,6 @@
         activitiesForm.get('descripcion')?.touched) {
         <div class="invalid-feedback d-block">
           La descripción es obligatoria.
-        </div>
-        }
-      </div>
-
-      <!-- ¿Es recurrente? -->
-      <div class="mb-3">
-        <label class="form-label">¿Es recurrente?</label>
-        <select
-          class="form-select"
-          formControlName="es_recurrente"
-          [class.is-invalid]="
-            activitiesForm.get('es_recurrente')?.invalid &&
-            activitiesForm.get('es_recurrente')?.touched
-          "
-        >
-          <option value="" disabled>Selecciona</option>
-          <option value="1">Sí</option>
-          <option value="0">No</option>
-        </select>
-        @if (activitiesForm.get('es_recurrente')?.invalid &&
-        activitiesForm.get('es_recurrente')?.touched) {
-        <div class="invalid-feedback d-block">
-          Debes indicar si la actividad es recurrente.
         </div>
         }
       </div>

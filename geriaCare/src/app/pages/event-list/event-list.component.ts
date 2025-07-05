@@ -52,32 +52,45 @@ export class EventListComponent {
         }))
       );
 
-      // preload activity and elder names
-      const activityIds = new Set(response.events.map((e) => e.actividad_id));
-      for (const activityId of activityIds) {
+      // preload activity and elder names concurrently
+      const detailPromises = response.events.map(async (event) => {
         try {
           const actResp = await this.activityService.getActivityById(
-            activityId
+            event.actividad_id
           );
+
           const actName = actResp.actividad.nombre;
-          const elderId = actResp.actividad.persona_mayor_id;
+          const actDescription = actResp.actividad.descripcion;
+          const elderId = event.persona_mayor_id;
 
-          const elderResp = await this.elderService.getElderById(elderId);
-          const elderName = `${elderResp.personaMayor.nombre} ${elderResp.personaMayor.apellido}`;
+          if (elderId !== null && elderId !== undefined) {
+            const elderResp = await this.elderService.getElderById(
+              Number(elderId)
+            );
 
-          this.activityElderNames.set(
-            activityId,
-            `${actName} (Persona: ${elderName})`
-          );
+            const elderName = `${elderResp.personaMayor.nombre} ${elderResp.personaMayor.apellido}`;
+            this.activityElderNames.set(
+              event.id,
+              `${actName} - ${actDescription} (Persona: ${elderName})`
+            );
+          } else {
+            console.warn(`Event ID ${event.id} has no persona_mayor_id.`);
+            this.activityElderNames.set(
+              event.id,
+              `${actName} - ${actDescription} (Sin residente asociado)`
+            );
+          }
         } catch (error) {
           console.error(
-            "Error fetching details for activity ID",
-            activityId,
+            "Error fetching details for event/activity ID",
+            event.id,
             error
           );
-          this.activityElderNames.set(activityId, "Desconocida");
+          this.activityElderNames.set(event.id, "Actividad desconocida");
         }
-      }
+      });
+
+      await Promise.all(detailPromises);
     } catch (error) {
       console.error("Error loading events:", error);
       this.error.set("No se pudieron cargar los eventos.");

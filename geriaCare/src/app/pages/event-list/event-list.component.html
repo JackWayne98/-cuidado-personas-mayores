@@ -12,11 +12,11 @@
     @for (event of individualEvents(); track event.id) {
     <li class="list-group-item">
       <strong>Actividad:</strong>
-      {{ activityElderNames.get(event.actividad_id) }} <br />
+      {{ activityElderNames.get(event.id) }} <br />
       <strong>Inicio:</strong>
       {{ event.fecha_inicio | date : "MM-dd-yyyy HH:mm" }} <br />
-      <strong>Fin:</strong> {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }}
-      <br />
+      <strong>Fin:</strong>
+      {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }} <br />
       <strong>Estado:</strong> {{ event.estado }}
     </li>
     }
@@ -33,11 +33,10 @@
     @for (group of groupedRecurrentEvents(); track group.grupoId) {
     <li class="list-group-item">
       <strong>Actividad:</strong>
-      {{ activityElderNames.get(group.events[0].actividad_id) }} <br />
+      {{ activityElderNames.get(group.events[0].id) }}<br />
       <strong>Repeticiones:</strong> {{ group.events.length }} <br />
       <strong>Primera ocurrencia:</strong>
-      {{ group.events[0].fecha_inicio | date : "MM-dd-yyyy HH:mm" }}
-      <br />
+      {{ group.events[0].fecha_inicio | date : "MM-dd-yyyy HH:mm" }}<br />
       <strong>Última ocurrencia:</strong>
       {{
         group.events[group.events.length - 1].fecha_inicio

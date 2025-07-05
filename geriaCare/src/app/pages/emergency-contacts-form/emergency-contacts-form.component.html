@@ -124,6 +124,25 @@
           }
         </div>
 
+        <!-- Email -->
+        <div class="mb-3">
+          <label class="form-label">Correo</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="correo"
+            formControlName="correo"
+            [class.is-invalid]="
+              emergencyContactForm.get('correo')?.touched &&
+              emergencyContactForm.get('correo')?.invalid
+            "
+          />
+          @if (emergencyContactForm.get('correo')?.touched &&
+          emergencyContactForm.get('correo')?.invalid) {
+          <div class="invalid-feedback d-block">El correo es obligatorio .</div>
+          }
+        </div>
+
         <!-- Submit Button -->
         <div class="d-grid">
           <button type="submit" class="btn btn-dark">

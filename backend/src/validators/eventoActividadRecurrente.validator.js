@@ -7,6 +7,12 @@ const eventoActividadRecurrenteSchema = Joi.object({
     "number.integer": "El campo 'actividad_id' debe ser un número entero.",
     "number.positive": "El campo 'actividad_id' debe ser un número positivo.",
   }),
+  persona_mayor_id: Joi.number().integer().positive().required().messages({
+    "any.required": "El campo 'persona_mayor_id' es obligatorio.",
+    "number.base": "El campo 'persona_mayor_id' debe ser un número.",
+    "number.integer": "El campo 'persona_mayor_id' debe ser un número entero.",
+    "number.positive": "El campo 'persona_mayor_id' debe ser un número positivo.",
+  }),
   fecha_inicio: Joi.string().required().messages({
     "any.required": "El campo 'fecha_inicio' es obligatorio.",
     "string.base": "El campo 'fecha_inicio' debe ser un texto.",

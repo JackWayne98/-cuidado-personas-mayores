@@ -39,6 +39,7 @@ export class EmergencyContactsFormComponent {
       Validators.minLength(2),
     ]),
     es_medico: new FormControl("", [Validators.required]),
+    correo: new FormControl("", [Validators.required, Validators.email]),
   });
 
   // Load elders on component load
@@ -69,6 +70,7 @@ export class EmergencyContactsFormComponent {
           telefono: contact.telefono,
           relacion: contact.relacion,
           es_medico: contact.es_medico ? "1" : "0",
+          correo: contact.correo,
         });
 
         this.emergencyContactForm.get("persona_mayor_id")?.disable();
@@ -95,6 +97,7 @@ export class EmergencyContactsFormComponent {
       telefono: formValue.telefono!,
       relacion: formValue.relacion!,
       es_medico: formValue.es_medico === "1",
+      correo: formValue.correo!,
     };
 
     try {

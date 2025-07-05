@@ -2,6 +2,7 @@ const db = require("../config/db");
 
 const insertEventoActividad = async (
   actividad_id,
+  persona_mayor_id,
   perfil_usuario_id,
   fecha_inicio,
   fecha_fin,
@@ -13,10 +14,11 @@ const insertEventoActividad = async (
   fecha_modificacion,
   grupo_recurrencia_id = null
 ) => {
-  const result = await db.query(
-    "INSERT INTO evento_actividad (actividad_id,perfil_usuario_id,fecha_inicio, fecha_fin, recordatorio, estado, creado_por, modificado_por, fecha_creacion, fecha_modificacion, grupo_recurrencia_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+  const [result] = await db.query(
+    "INSERT INTO evento_actividad (actividad_id, persona_mayor_id, perfil_usuario_id, fecha_inicio, fecha_fin, recordatorio, estado, creado_por, modificado_por, fecha_creacion, fecha_modificacion, grupo_recurrencia_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       actividad_id,
+      persona_mayor_id,
       perfil_usuario_id,
       fecha_inicio,
       fecha_fin,
@@ -29,12 +31,17 @@ const insertEventoActividad = async (
       grupo_recurrencia_id,
     ]
   );
-  return result[0];
+  return result;
 };
 
 const selectByUser = async (perfil_usuario_id) => {
   const [result] = await db.query(
-    "SELECT * FROM evento_actividad WHERE perfil_usuario_id = ?",
+    `SELECT * 
+     FROM evento_actividad 
+     WHERE perfil_usuario_id = ?
+     ORDER BY 
+       COALESCE(grupo_recurrencia_id, CONCAT(id, '')) ASC,
+       fecha_inicio ASC`,
     [perfil_usuario_id]
   );
   return result;

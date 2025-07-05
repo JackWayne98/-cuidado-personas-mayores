@@ -19,45 +19,134 @@
       <p>
         <strong>Condiciones médicas:</strong> {{ elder()?.condiciones_medicas }}
       </p>
-      <p><strong>Notas generales:</strong> {{ elder()?.notas_generales }}</p>
+      <p>
+        <strong>Notas generales:</strong> {{ elder()?.notas_generales || "NA" }}
+      </p>
     </div>
   </div>
 
-  <!-- Activities -->
+  <!-- Event Activitites -->
   <div class="card mb-4">
-    <div class="card-header bg-info text-white">Actividades registradas</div>
-    @if (activities().length > 0) {
-    <ul class="list-group list-group-flush">
-      @for (activity of activities(); track activity.id) {
-      <li class="list-group-item">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <strong>{{ activity.nombre }}</strong> - {{ activity.categoria }}
-            <div class="text-muted">{{ activity.descripcion }}</div>
-          </div>
+    <div class="card-header bg-warning text-dark">Actividades del evento</div>
+
+    @if (events().length > 0) {
+    <div class="p-3">
+      <h5 class="text-primary fw-bold mb-2">Eventos simples:</h5>
+      @if (singleEvents().length > 0) {
+      <ul class="list-group list-group-flush">
+        @for (event of singleEvents(); track event.id) {
+        <li class="list-group-item">
+          <p>
+            <strong>Actividad:</strong> {{ activityNames.get(event.id) }}<br />
+            <strong>Actividad:</strong> {{ event.id }}<br />
+            <strong>Inicio:</strong>
+            {{ event.fecha_inicio | date : "MM-dd-yyyy HH:mm" }}<br />
+            <strong>Fin:</strong>
+            {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }}<br />
+            <strong>Estado:</strong>
+            <span
+              [ngClass]="{
+                'text-success': event.estado === 'completado',
+                'text-danger': event.estado === 'cancelado'
+              }"
+            >
+              {{ event.estado }} </span
+            ><br />
+            <strong>Recordatorio:</strong>
+            {{ event.recordatorio ? "Sí" : "No" }}
+          </p>
           <div class="d-flex gap-2">
             <a
               class="btn btn-sm btn-primary"
-              [routerLink]="['/dashboard/elderupdateactivity', activity.id]"
+              [routerLink]="['/dashboard/eventupdate', event.id]"
             >
               Actualizar
             </a>
             <button
               type="button"
+              class="btn btn-sm btn-secondary"
+              (click)="changeEventStatus(event.id)"
+              [disabled]="
+                event.estado === 'completado' || event.estado === 'cancelado'
+              "
+            >
+              Estado
+            </button>
+            <button
+              type="button"
               class="btn btn-sm btn-danger"
-              (click)="deleteActivity(activity.id!)"
+              (click)="deleteSingleEvent(event.id)"
             >
               Eliminar
             </button>
           </div>
-        </div>
-      </li>
+        </li>
+        }
+      </ul>
+      } @else {
+      <p class="text-muted mb-0">
+        No se encontraron eventos simples para este residente.
+      </p>
       }
-    </ul>
+    </div>
+
+    <div class="p-3">
+      <h5 class="text-success fw-bold mb-2">Eventos recurrentes:</h5>
+      @if (recurrentEvents().length > 0) {
+      <ul class="list-group list-group-flush">
+        @for (event of recurrentEvents(); track event.grupo_recurrencia_id) {
+        <li class="list-group-item">
+          <p>
+            <strong>Actividad:</strong> {{ activityNames.get(event.id) }}<br />
+            <strong>Inicio:</strong>
+            {{ event.fecha_inicio | date : "MM-dd-yyyy HH:mm" }}<br />
+            <strong>Fin:</strong>
+            {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }}<br />
+            <strong>Recordatorio:</strong>
+            {{ event.recordatorio ? "Sí" : "No" }}
+          </p>
+          <div class="d-flex gap-2">
+            <a
+              class="btn btn-sm btn-primary"
+              [routerLink]="[
+                '/dashboard/recurringeventupdate',
+                event.grupo_recurrencia_id
+              ]"
+            >
+              Actualizar
+            </a>
+            <a
+              class="btn btn-sm btn-warning"
+              [routerLink]="[
+                '/dashboard/elderview',
+                elder()?.id,
+                'recurrentgroup',
+                event.grupo_recurrencia_id
+              ]"
+            >
+              Repeticiones
+            </a>
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              (click)="deleteRecurrentEvent(event.grupo_recurrencia_id!)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <p class="text-muted mb-0">
+        No se encontraron eventos recurrentes para este residente.
+      </p>
+      }
+    </div>
     } @else {
     <div class="card-body">
       <p class="text-muted mb-0">
-        No hay actividades registradas para este residente.
+        No se encontraron actividades para este residente.
       </p>
     </div>
     }
@@ -76,8 +165,13 @@
             {{ prescription.dosis }}, {{ prescription.frecuencia }}<br />
             <span class="text-muted">
               Inicio:
-              {{ prescription.fecha_inicio | date : "MM-dd-yyyy HH:mm" }} | Fin:
-              {{ prescription.fecha_fin | date : "MM-dd-yyyy HH:mm" }} </span
+              {{
+                prescription.fecha_inicio | date : "MM-dd-yyyy HH:mm" : "UTC"
+              }}
+              | Fin:
+              {{
+                prescription.fecha_fin | date : "MM-dd-yyyy HH:mm" : "UTC"
+              }} </span
             ><br />
             <small class="text-muted">
               Prescrita por: {{ prescription.prescrita_por }}
@@ -174,6 +268,7 @@
               <strong>¿Es médico?:</strong>
               {{ contact.es_medico ? "Sí" : "No" }}
             </p>
+            <p><strong>Correo:</strong> {{ contact.correo }}</p>
           </div>
           <div class="ms-3 d-flex flex-column gap-1">
             <a

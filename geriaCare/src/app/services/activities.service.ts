@@ -27,7 +27,18 @@ export class ActivitiesService {
       }>(this.endpoint, data, { headers })
     );
   }
+  getAllActivities(): Promise<{ actividades: Iactivity[] }> {
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `${token}`,
+    });
 
+    return lastValueFrom(
+      this.http.get<{ actividades: Iactivity[] }>(`${this.endpoint}/all`, {
+        headers,
+      })
+    );
+  }
   getActivitiesByElderId(elderId: number): Promise<any> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
@@ -40,6 +51,7 @@ export class ActivitiesService {
       })
     );
   }
+
   getActivityById(id: number): Promise<{ actividad: any }> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({ Authorization: `${token}` });

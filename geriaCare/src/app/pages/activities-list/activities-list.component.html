@@ -1,14 +1,12 @@
 <div class="container my-4">
-  <h2 class="mb-4">Lista de Actividades por Residente</h2>
+  <h2 class="mb-4">Lista de Actividades por Categoría</h2>
 
   <div class="mb-4">
-    <label class="form-label">Selecciona un residente:</label>
-    <select class="form-select" (change)="onElderSelected($event)">
-      <option value="" disabled selected>Selecciona un residente</option>
-      @for (elder of elders(); track elder.id) {
-      <option [value]="elder.id">
-        {{ elder.nombre }} {{ elder.apellido }}
-      </option>
+    <label class="form-label">Selecciona una categoría:</label>
+    <select class="form-select" (change)="onCategorySelected($event)">
+      <option value="" disabled selected>Selecciona una categoría</option>
+      @for (category of categories; track category) {
+      <option [value]="category">{{ category | titlecase }}</option>
       }
     </select>
   </div>
@@ -17,30 +15,28 @@
   <div class="alert alert-info">Cargando actividades...</div>
   } @else if (hasSelected() && error()) {
   <div class="alert alert-danger">{{ error() }}</div>
-  } @else if (hasSelected() && activities().length > 0) {
+  } @else if (hasSelected() && filteredActivities().length > 0) {
   <table class="table table-bordered">
     <thead>
       <tr>
         <th>Nombre</th>
         <th>Categoría</th>
         <th>Descripción</th>
-        <th>Recurrente</th>
       </tr>
     </thead>
     <tbody>
-      @for (activity of activities(); track activity.id) {
+      @for (activity of filteredActivities(); track activity.id) {
       <tr>
         <td>{{ activity.nombre }}</td>
         <td>{{ activity.categoria }}</td>
         <td>{{ activity.descripcion }}</td>
-        <td>{{ activity.es_recurrente ? "Sí" : "No" }}</td>
       </tr>
       }
     </tbody>
   </table>
   } @else if (hasSelected()) {
   <div class="alert alert-warning">
-    No se encontraron actividades para este residente.
+    No se encontraron actividades para esta categoría.
   </div>
   }
 </div>

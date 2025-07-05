@@ -7,23 +7,30 @@ const checkPersonaMayorAccess = (options = {}) => {
       let personaMayorId = null;
 
       if (options.fromPersonaMayorId) {
-        personaMayorId = req.params.elderId || req.params.persona_mayor_id || req.body.persona_mayor_id;
+        personaMayorId =
+          req.params.elderId ||
+          req.params.persona_mayor_id ||
+          req.body.persona_mayor_id;
+
       } else if (options.fromEventoActividad) {
         const eventoActividadId = req.params.id || req.body.evento_actividad_id;
         if (!eventoActividadId) {
-          return res.status(400).json({ message: "El ID del evento actividad es requerido." });
+          return res.status(400).json({
+            message: "El ID del evento actividad es requerido.",
+          });
         }
 
         const [rows] = await db.query(
-          `SELECT a.persona_mayor_id 
-           FROM evento_actividad ea
-           JOIN actividad a ON ea.actividad_id = a.id
-           WHERE ea.id = ? LIMIT 1`,
+          `SELECT persona_mayor_id 
+           FROM evento_actividad
+           WHERE id = ? LIMIT 1`,
           [eventoActividadId]
         );
 
         if (rows.length === 0) {
-          return res.status(404).json({ message: "Evento actividad no encontrado." });
+          return res.status(404).json({
+            message: "Evento actividad no encontrado.",
+          });
         }
 
         personaMayorId = rows[0].persona_mayor_id;
@@ -31,26 +38,31 @@ const checkPersonaMayorAccess = (options = {}) => {
       } else if (options.fromRecurrentGroup) {
         const groupId = req.params.grupo_recurrencia_id;
         if (!groupId) {
-          return res.status(400).json({ message: "El ID del grupo de recurrencia es requerido." });
+          return res.status(400).json({
+            message: "El ID del grupo de recurrencia es requerido.",
+          });
         }
 
         const [rows] = await db.query(
-          `SELECT a.persona_mayor_id 
-           FROM evento_actividad ea
-           JOIN actividad a ON ea.actividad_id = a.id
-           WHERE ea.grupo_recurrencia_id = ? LIMIT 1`,
+          `SELECT persona_mayor_id 
+           FROM evento_actividad
+           WHERE grupo_recurrencia_id = ? LIMIT 1`,
           [groupId]
         );
 
         if (rows.length === 0) {
-          return res.status(404).json({ message: "Grupo de recurrencia no encontrado o sin eventos asociados." });
+          return res.status(404).json({
+            message: "Grupo de recurrencia no encontrado o sin eventos asociados.",
+          });
         }
 
         personaMayorId = rows[0].persona_mayor_id;
       }
 
       if (!personaMayorId) {
-        return res.status(400).json({ message: "No se pudo determinar el ID de la persona mayor." });
+        return res.status(400).json({
+          message: "No se pudo determinar el ID de la persona mayor.",
+        });
       }
 
       const [existsRows] = await db.query(
@@ -59,7 +71,9 @@ const checkPersonaMayorAccess = (options = {}) => {
       );
 
       if (existsRows.length === 0) {
-        return res.status(404).json({ message: "La persona mayor no existe." });
+        return res.status(404).json({
+          message: "La persona mayor no existe.",
+        });
       }
 
       const [validRows] = await db.query(
@@ -69,7 +83,10 @@ const checkPersonaMayorAccess = (options = {}) => {
       );
 
       if (validRows.length === 0) {
-        return res.status(403).json({ message: "No tienes permisos para acceder a esta persona mayor o sus datos." });
+        return res.status(403).json({
+          message:
+            "No tienes permisos para acceder a esta persona mayor o sus datos.",
+        });
       }
 
       next();
