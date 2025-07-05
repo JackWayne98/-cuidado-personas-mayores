@@ -1,4 +1,6 @@
 const EventoActividad = require("../models/eventoActividad.model.js");
+const Actividad = require("../models/actividades.model.js");
+const PersonaMayor = require("../models/personasMayores.model.js");
 const dayjs = require("dayjs");
 const { v4: uuidv4 } = require("uuid");
 
@@ -105,6 +107,44 @@ const create = async (req, res) => {
     );
 
     const eventoCreado = await EventoActividad.selectById(result.insertId);
+
+    if (recordatorio === true) {
+      console.log("correo", recordatorio);
+      const enviarCorreo = require("../utils/mailer.js");
+
+      const actividad = await Actividad.selectById(actividad_id);
+      const personaMayor = await PersonaMayor.selectById(persona_mayor_id);
+
+
+      await enviarCorreo(
+        req.user.correo,
+        "Recordatorio de evento programado",
+        `
+    <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+      <h2 style="color: #2c3e50;">Hola ${req.user.nombre || "usuario"},</h2>
+      <p style="font-size: 16px;">
+        Has creado un evento con recordatorio activado para la persona mayor <strong>${personaMayor.nombre} ${personaMayor.apellido || ''}</strong>.
+      </p>
+
+      <h3 style="color: #2980b9;">📝 Detalles del evento</h3>
+      <ul style="font-size: 15px; line-height: 1.5;">
+        <li><strong>Actividad:</strong> ${actividad.nombre}</li>
+        <li><strong>Descripción:</strong> ${actividad.descripcion}</li>
+        <li><strong>Fecha y hora de inicio:</strong> ${fecha_inicio}</li>
+        <li><strong>Fecha y hora de fin:</strong> ${fecha_fin}</li>
+      </ul>
+
+      <p style="font-size: 15px;">
+        Recuerda asistir o preparar a la persona mayor para esta actividad programada.
+      </p>
+
+      <p style="font-size: 13px; color: #888; margin-top: 30px;">
+        Este es un mensaje automático generado por Geriacare.
+      </p>
+    </div>
+    `
+      );
+    }
 
     return res.json({
       message: "Evento registrado correctamente",
