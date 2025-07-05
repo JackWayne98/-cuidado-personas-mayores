@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardLayoutComponent {
   isCollapsed = false;
-  isMobileMenuVisible = true;
+  isMobileMenuVisible = false;
 
   constructor() {
     this.checkScreenSize();
@@ -24,20 +24,25 @@ export class DashboardLayoutComponent {
   }
 
   private checkScreenSize(): void {
-    const width = window.innerWidth;
+    const isMobile = window.innerWidth <= 768;
 
-    if (width > 768) {
-      // En desktop, forzamos visibilidad del sidebar
-      this.isMobileMenuVisible = true;
-    } else {
-      // En mobile, ocultamos el sidebar por defecto
+    if (isMobile) {
+      // En móvil: ocultamos el menú y aseguramos que NO esté colapsado
       this.isMobileMenuVisible = false;
+      this.isCollapsed = false;
+    } else {
+      // En escritorio: visible y puede colapsarse
+      this.isMobileMenuVisible = true;
+      this.isCollapsed = false;
     }
   }
 
   toggleSidebar() {
-    if (window.innerWidth <= 768) {
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
       this.isMobileMenuVisible = !this.isMobileMenuVisible;
+      this.isCollapsed = false;
     } else {
       this.isCollapsed = !this.isCollapsed;
     }

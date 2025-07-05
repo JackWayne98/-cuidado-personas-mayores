@@ -1,13 +1,16 @@
 /* Sidebar base */
 .sidebar {
-  height: 100vh;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border-right: 1px solid var(--elderly-border);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  overflow-y: auto;
   z-index: 1000;
   width: 280px;
+  flex-shrink: 0;
 }
 
 /* Colapsado en escritorio */
