@@ -108,7 +108,7 @@ Authorization: {{token}}
 }
 
 ###
-DELETE {{host}}/api/actividades/6
+DELETE {{host}}/api/actividades/42
 Authorization: {{token}}
 
 
@@ -121,7 +121,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "actividad_id": 7,
+  "actividad_id": 8,
+  "persona_mayor_id": 10,
   "fecha_inicio": "2025-07-01 09:00:00",
   "fecha_fin": "2025-07-01 10:00:00",
   "recordatorio": true
@@ -133,7 +134,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "actividad_id": 7,
+  "actividad_id": 5,
+  "persona_mayor_id": 10,
   "fecha_inicio": "2025-07-01 09:00:00",
   "fecha_fin": "2025-07-01 10:00:00",
   "recordatorio": true,
@@ -146,7 +148,7 @@ GET {{host}}/api/evento-actividad
 Authorization: {{token}}
 
 ### Obtener eventos de un grupo recurrente específico
-GET {{host}}/api/evento-actividad/recurrentes/7d726bc4-d02a-46ab-a0fa-f36adcc2cf4c
+GET {{host}}/api/evento-actividad/recurrentes/5743a3f2-02b9-4898-8994-5943ff597fa6
 Authorization: {{token}}
 
 ### Obtener un evento individual por ID
@@ -154,7 +156,7 @@ GET {{host}}/api/evento-actividad/11
 Authorization: {{token}}
 
 ### Editar un evento individual por ID
-PUT {{host}}/api/evento-actividad/64
+PUT {{host}}/api/evento-actividad/82
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -165,7 +167,7 @@ Authorization: {{token}}
 }
 
 ### Editar un grupo recurrente por ID
-PUT {{host}}/api/evento-actividad/recurrentes/41bdbc0f-ae0d-4536-bd7b-ba6433371edd
+PUT {{host}}/api/evento-actividad/recurrentes/5743a3f2-02b9-4898-8994-5943ff597fa6
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -176,20 +178,20 @@ Authorization: {{token}}
 }
 
 ### Cambiar el estado de un evento individual
-PUT {{host}}/api/evento-actividad/64/status
+PUT {{host}}/api/evento-actividad/82/status
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "estado": "cancelado"
+  "estado": "pendiente"
 }
 
 ### Eliminar un evento individual
-DELETE {{host}}/api/evento-actividad/64
+DELETE {{host}}/api/evento-actividad/83
 Authorization: {{token}}
 
 ### Eliminar un grupo recurrente
-DELETE {{host}}/api/evento-actividad/recurrentes/41bdbc0f-ae0d-4536-bd7b-ba6433371edd
+DELETE {{host}}/api/evento-actividad/recurrentes/5743a3f2-02b9-4898-8994-5943ff597fa6
 Authorization: {{token}}
 
 ###########

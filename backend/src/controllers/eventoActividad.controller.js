@@ -81,7 +81,7 @@ const create = async (req, res) => {
         details: error.details.map((e) => e.message),
       });
     }
-    const { actividad_id, fecha_inicio, fecha_fin, recordatorio } = value;
+    const { actividad_id, persona_mayor_id, fecha_inicio, fecha_fin, recordatorio } = value;
 
     const perfil_usuario_id = req.user.id;
     const creado_por = req.user.id;
@@ -92,6 +92,7 @@ const create = async (req, res) => {
 
     const result = await EventoActividad.insertEventoActividad(
       actividad_id,
+      persona_mayor_id,
       perfil_usuario_id,
       fecha_inicio,
       fecha_fin,
@@ -134,6 +135,7 @@ const createRecurrentEvent = async (req, res) => {
     }
     const {
       actividad_id,
+      persona_mayor_id,
       fecha_inicio,
       fecha_fin,
       recordatorio,
@@ -165,6 +167,7 @@ const createRecurrentEvent = async (req, res) => {
       inserts.push(
         EventoActividad.insertEventoActividad(
           actividad_id,
+          persona_mayor_id,
           perfil_usuario_id,
           inicio.format("YYYY-MM-DD HH:mm:ss"),
           fin.format("YYYY-MM-DD HH:mm:ss"),

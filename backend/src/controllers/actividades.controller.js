@@ -71,13 +71,13 @@ const update = async (req, res) => {
     try {
         const { id } = req.params;
         const {
+            persona_mayor_id, 
             nombre,
             categoria,
             descripcion,
         } = req.body;
 
-        // Validar si la actividad existe
-        const actividadExistente = await Actividad.selectById(id);
+         const actividadExistente = await Actividad.selectById(id);
         if (!actividadExistente) {
             return res.status(404).json({
                 success: false,
@@ -85,7 +85,6 @@ const update = async (req, res) => {
             });
         }
 
-        // Validar categoría
         const categoriasValidas = ['medicación', 'terapia', 'ejercicio', 'alimentación', 'descanso', 'visita', 'ocio'];
         if (!categoriasValidas.includes(categoria)) {
             return res.status(400).json({
@@ -99,6 +98,7 @@ const update = async (req, res) => {
 
         const datosActualizados = {
             nombre,
+            persona_mayor_id,
             categoria,
             descripcion,
             modificado_por,
