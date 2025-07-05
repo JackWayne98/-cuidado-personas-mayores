@@ -1,7 +1,9 @@
 const router = require("express").Router();
 
-const { create, getByElderId, getById, update, remove } = require("../../controllers/actividades.controller");
+const { create, getByElderId, getById, update, remove, getByUser } = require("../../controllers/actividades.controller");
 const { checkToken } = require("../../middlewares/auth.middlewares");
+
+router.get('/usuario', checkToken, getByUser);
 
 router.get("/:id", checkToken, getById);
 
