@@ -2,22 +2,18 @@ const db = require("../config/db");
 
 
 const insert = async ({
-    persona_mayor_id,
     nombre,
     categoria,
     descripcion,
-    es_recurrente,
     creado_por,
     fecha_creacion
 }) => {
     const [result] = await db.query(
-        "INSERT INTO actividad (persona_mayor_id, nombre, categoria, descripcion, es_recurrente, creado_por, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO actividad (nombre, categoria, descripcion, creado_por, fecha_creacion) VALUES (?, ?, ?, ?, ?)",
         [
-            persona_mayor_id,
             nombre,
             categoria,
             descripcion,
-            es_recurrente,
             creado_por,
             fecha_creacion
         ]
@@ -33,24 +29,19 @@ const selectById = async (id) => {
     return result[0];
 };
 
-const selectByPersonaMayorId = async (persona_mayor_id) => {
-    const [result] = await db.query("SELECT * FROM actividad WHERE persona_mayor_id = ?", [persona_mayor_id]);
-    return result;
-};
 
 const update = async (id, datosActualizados) => {
     const {
         nombre,
         categoria,
         descripcion,
-        es_recurrente,
         modificado_por,
         fecha_modificacion
     } = datosActualizados;
 
     const query = `
     UPDATE actividad
-    SET nombre = ?, categoria = ?, descripcion = ?, es_recurrente = ?, modificado_por = ?, fecha_modificacion = ?
+    SET nombre = ?, categoria = ?, descripcion = ?, modificado_por = ?, fecha_modificacion = ?
     WHERE id = ?
   `;
 
@@ -58,7 +49,6 @@ const update = async (id, datosActualizados) => {
         nombre,
         categoria,
         descripcion,
-        es_recurrente,
         modificado_por,
         fecha_modificacion,
         id
@@ -74,4 +64,4 @@ const remove = async (id) => {
 };
 
 
-module.exports = { insert, selectById, selectByPersonaMayorId, update, remove };
+module.exports = { insert, selectById, update, remove };
