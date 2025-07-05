@@ -11,7 +11,6 @@
       required
       #elder="ngModel"
       [class.is-invalid]="elder.invalid && elder.touched"
-      (change)="onElderSelected($event)"
     >
       <option value="" disabled selected>Selecciona un anciano</option>
       @for (elder of elders; track elder.id) {
@@ -21,11 +20,32 @@
       }
     </select>
     @if (elder.invalid && elder.touched) {
-    <div class="invalid-feedback d-block">Selecciona a un anciano.</div>
+    <div class="invalid-feedback d-block">Selecciona un anciano.</div>
     }
   </div>
 
+  <!-- Category Selector -->
+  <div class="mb-3">
+    <label class="form-label">Filtrar por categoría de actividad</label>
+    <select
+      class="form-select"
+      [(ngModel)]="selectedCategory"
+      name="selectedCategory"
+      (change)="onCategorySelected($event)"
+    >
+      <option value="" disabled selected>Selecciona una categoría</option>
+      <option value="medicación">Medicación</option>
+      <option value="terapia">Terapia</option>
+      <option value="ejercicio">Ejercicio</option>
+      <option value="alimentación">Alimentación</option>
+      <option value="descanso">Descanso</option>
+      <option value="visita">Visita</option>
+      <option value="ocio">Ocio</option>
+    </select>
+  </div>
+
   <!-- Activities Selector -->
+  @if (selectedCategory) {
   <div class="mb-3">
     <label class="form-label">Selecciona una actividad</label>
     <select
@@ -35,10 +55,9 @@
       required
       #activity="ngModel"
       [class.is-invalid]="activity.invalid && activity.touched"
-      (change)="onActivitySelected($event)"
     >
       <option value="" disabled selected>Selecciona una actividad</option>
-      @for (activity of activities; track activity.id) {
+      @for (activity of filteredActivities; track activity.id) {
       <option [value]="activity.id">{{ activity.nombre }}</option>
       }
     </select>
@@ -46,6 +65,7 @@
     <div class="invalid-feedback d-block">Selecciona una actividad.</div>
     }
   </div>
+  }
 
   <!-- Event Type Selector -->
   <div class="mb-3">

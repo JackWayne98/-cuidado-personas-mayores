@@ -18,12 +18,14 @@
         <div class="col-lg-8">
           <div class="card dashboard-card h-100">
             <div class="card-header bg-white border-bottom">
-              <h5 class="card-title mb-0">Actividades Programadas Hoy</h5>
+              <h5 class="card-title mb-0">
+                Actividades Programadas de la Semana
+              </h5>
             </div>
             <div class="card-body">
               @if (todayEvents().length === 0) {
               <p class="text-muted text-center mb-0">
-                No hay actividades programadas para hoy.
+                No hay actividades programadas para la semana.
               </p>
               } @else { @for (event of todayEvents(); track event.id) {
               <div class="d-flex align-items-center py-3 border-bottom">
@@ -38,8 +40,10 @@
                     }}
                   </h6>
                   <p class="text-muted small mb-0">
-                    Desde: {{ event.fecha_inicio | date : "shortDate" }}<br />
-                    Hasta: {{ event.fecha_fin | date : "shortDate" }}
+                    Desde:
+                    {{ event.fecha_inicio | date : "MM-dd-yyyy HH:mm" }}<br />
+                    Hasta:
+                    {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }}
                   </p>
                 </div>
                 <span

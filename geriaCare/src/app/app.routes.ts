@@ -15,12 +15,17 @@ import { EventActivityFormComponent } from "./pages/event-activity-form/event-ac
 import { EventListComponent } from "./pages/event-list/event-list.component";
 import { ElderViewComponent } from "./pages/elder-view/elder-view.component";
 import { EmergencyContactsFormComponent } from "./pages/emergency-contacts-form/emergency-contacts-form.component";
+import { AboutUsComponent } from "./pages/about-us/about-us.component";
+import { ContactUsComponent } from "./pages/contact-us/contact-us.component";
+import { RecurrentGroupViewComponent } from "./pages/recurrent-group-view/recurrent-group-view.component";
 
 export const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "home" },
   { path: "home", component: HomeComponent },
   { path: "registeruser", component: RegisterUserFormComponent },
   { path: "loginuser", component: LoginFormComponent },
+  { path: "aboutus", component: AboutUsComponent },
+  { path: "contactus", component: ContactUsComponent },
   {
     path: "dashboard",
     component: DashboardLayoutComponent,
@@ -36,7 +41,14 @@ export const routes: Routes = [
       { path: "elderupdate/:_id", component: RegisterElderlyFormComponent },
       { path: "elderevent", component: EventActivityFormComponent },
       { path: "eventlist", component: EventListComponent },
-      { path: "elderview/:id", component: ElderViewComponent },
+      {
+        path: "elderview/:id",
+        component: ElderViewComponent,
+      },
+      {
+        path: "elderview/:elderid/recurrentgroup/:groupid",
+        component: RecurrentGroupViewComponent,
+      },
       {
         path: "registeremergencycontact",
         component: EmergencyContactsFormComponent,
@@ -53,6 +65,11 @@ export const routes: Routes = [
       {
         path: "emergencycontactupdate/:id",
         component: EmergencyContactsFormComponent,
+      },
+      { path: "eventupdate/:id", component: EventActivityFormComponent },
+      {
+        path: "recurringeventupdate/:id",
+        component: EventActivityFormComponent,
       },
     ],
   },

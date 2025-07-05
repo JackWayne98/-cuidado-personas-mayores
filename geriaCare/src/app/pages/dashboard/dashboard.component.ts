@@ -12,6 +12,7 @@ import { EventActivityService } from "../../services/event-activity.service";
 import { IeventResponse } from "../../interfaces/ievent-response";
 import { ActivitiesService } from "../../services/activities.service";
 import { Iactivity } from "../../interfaces/iactivity";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -36,7 +37,7 @@ export class DashboardComponent {
   isLoading = signal(true);
   error = signal<string | null>(null);
 
-  activitiesMap = new Map<number, Iactivity>();
+  activitiesMap = new Map<number, Iactivity>(); // ✅ Expose activities map for template
 
   private loadDashboardEffect = effect(async () => {
     this.isLoading.set(true);
@@ -98,54 +99,73 @@ export class DashboardComponent {
     }
   });
 
-  private loadEventsEffect = effect(async () => {
+  private loadWeeklyEventsEffect = effect(async () => {
     try {
       const elders = this.elders();
       if (elders.length === 0) return;
 
+      // Get all events once
       const eventsResponse = await this.eventService.getAllEvents();
-      this.activitiesMap.clear(); 
-      const today = new Date().toISOString().split("T")[0];
-      const eventsToday: IeventResponse[] = [];
+      const allEvents = eventsResponse.events || [];
 
+      // Clear previous map
+      this.activitiesMap.clear();
+
+      // Determine week boundaries (Sunday to Saturday)
+      const now = new Date();
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - now.getDay());
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+      endOfWeek.setHours(23, 59, 59, 999);
+
+      const eventsThisWeek: IeventResponse[] = [];
+
+      // Loop elders and pick events by elder ID
       for (const elder of elders) {
-        const activitiesResponse =
-          await this.activitiesService.getActivitiesByElderId(elder.id!);
-        for (const activity of activitiesResponse.actividades || []) {
-          this.activitiesMap.set(activity.id!, activity);
+        const elderEvents = allEvents.filter(
+          (event) => Number(event.persona_mayor_id) === elder.id
+        );
+
+        for (const event of elderEvents) {
+          const eventStart = new Date(event.fecha_inicio);
+          if (eventStart >= startOfWeek && eventStart <= endOfWeek) {
+            eventsThisWeek.push(event);
+
+            // Fetch and cache activity details for each unique activity_id
+            if (!this.activitiesMap.has(event.actividad_id)) {
+              try {
+                const activityResponse =
+                  await this.activitiesService.getActivityById(
+                    event.actividad_id
+                  );
+                this.activitiesMap.set(
+                  event.actividad_id,
+                  activityResponse.actividad
+                );
+              } catch (err) {
+                console.error(
+                  `Error loading activity ${event.actividad_id}:`,
+                  err
+                );
+              }
+            }
+          }
         }
       }
 
-      for (const event of eventsResponse.events || []) {
-        const activity = this.activitiesMap.get(event.actividad_id);
-        if (!activity) continue;
-
-        if (activity.es_recurrente) {
-          const startDate = new Date(event.fecha_inicio)
-            .toISOString()
-            .split("T")[0];
-          const endDate = new Date(event.fecha_fin).toISOString().split("T")[0];
-          if (today >= startDate && today <= endDate) {
-            eventsToday.push(event);
-          }
-        } else {
-          const eventDate = new Date(event.fecha_inicio)
-            .toISOString()
-            .split("T")[0];
-          if (eventDate === today) {
-            eventsToday.push(event);
-          }
-        }
-      }
-
-      eventsToday.sort(
+      eventsThisWeek.sort(
         (a, b) =>
           new Date(a.fecha_inicio).getTime() -
           new Date(b.fecha_inicio).getTime()
       );
-      this.todayEvents.set(eventsToday);
+
+      this.todayEvents.set(eventsThisWeek);
     } catch (err) {
-      console.error("Error loading today's events:", err);
+      console.error("Error loading weekly events:", err);
+      this.todayEvents.set([]); // fallback
     }
   });
 }

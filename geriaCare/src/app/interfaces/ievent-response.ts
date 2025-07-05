@@ -1,6 +1,7 @@
 export interface IeventResponse {
   id: number;
   actividad_id: number;
+  persona_mayor_id: string;
   perfil_usuario_id: number;
   fecha_inicio: string;
   fecha_fin: string;

@@ -9,7 +9,6 @@ import { ActivitiesService } from "../../services/activities.service";
 import { ElderRegisterService } from "../../services/elder-register.service";
 import { Ielder } from "../../interfaces/ielder";
 import Swal from "sweetalert2";
-import { EventsService } from "../../services/events.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -19,31 +18,18 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrl: "./activities-form.component.css",
 })
 export class ActivitiesFormComponent {
-  private elderService = inject(ElderRegisterService);
   private activitiesService = inject(ActivitiesService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  elders: Ielder[] = [];
   isEditMode = signal(false);
   activityId = signal<number | null>(null);
 
   activitiesForm = new FormGroup({
-    persona_mayor_id: new FormControl("", Validators.required),
     nombre: new FormControl("", [Validators.required, Validators.minLength(2)]),
     categoria: new FormControl("", Validators.required),
     descripcion: new FormControl("", Validators.required),
-    es_recurrente: new FormControl("", Validators.required),
   });
-
-  loadElders = (async () => {
-    try {
-      const response = await this.elderService.getAllElders();
-      this.elders = response.personasMayores;
-    } catch (error) {
-      console.error("Failed to load elders:", error);
-    }
-  })();
 
   private loadActivityEffect = effect(async () => {
     const idParam = this.route.snapshot.paramMap.get("id");
@@ -55,14 +41,10 @@ export class ActivitiesFormComponent {
         const activity = response.actividad;
 
         this.activitiesForm.patchValue({
-          persona_mayor_id: activity.persona_mayor_id.toString(),
           nombre: activity.nombre,
           categoria: activity.categoria,
           descripcion: activity.descripcion,
-          es_recurrente: activity.es_recurrente ? "1" : "0",
         });
-
-        this.activitiesForm.get("persona_mayor_id")?.disable();
       } catch (error) {
         console.error("Failed to load activity:", error);
         await Swal.fire("Error", "No se pudo cargar la actividad.", "error");
@@ -80,7 +62,6 @@ export class ActivitiesFormComponent {
     const formValue = this.activitiesForm.getRawValue();
 
     const activityData = {
-      persona_mayor_id: +formValue.persona_mayor_id!,
       nombre: formValue.nombre!,
       categoria: formValue.categoria! as
         | "medicación"
@@ -91,7 +72,6 @@ export class ActivitiesFormComponent {
         | "visita"
         | "ocio",
       descripcion: formValue.descripcion!,
-      es_recurrente: formValue.es_recurrente === "1",
     };
 
     try {
