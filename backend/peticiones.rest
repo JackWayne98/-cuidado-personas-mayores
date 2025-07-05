@@ -112,6 +112,11 @@ DELETE {{host}}/api/actividades/42
 Authorization: {{token}}
 
 
+### Obtener actividades por usuario
+GET {{host}}/api/actividades/usuario
+Authorization: {{token}}
+
+
 ###################
 # EVENTOACTIVIDAD #
 ###################

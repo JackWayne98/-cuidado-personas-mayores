@@ -36,7 +36,12 @@ const insertEventoActividad = async (
 
 const selectByUser = async (perfil_usuario_id) => {
   const [result] = await db.query(
-    "SELECT * FROM evento_actividad WHERE perfil_usuario_id = ?",
+    `SELECT * 
+     FROM evento_actividad 
+     WHERE perfil_usuario_id = ?
+     ORDER BY 
+       COALESCE(grupo_recurrencia_id, CONCAT(id, '')) ASC,
+       fecha_inicio ASC`,
     [perfil_usuario_id]
   );
   return result;
