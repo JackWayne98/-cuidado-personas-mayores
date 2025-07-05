@@ -1,0 +1,42 @@
+<div class="container my-4">
+  <h2 class="mb-4">Lista de Actividades por Categoría</h2>
+
+  <div class="mb-4">
+    <label class="form-label">Selecciona una categoría:</label>
+    <select class="form-select" (change)="onCategorySelected($event)">
+      <option value="" disabled selected>Selecciona una categoría</option>
+      @for (category of categories; track category) {
+      <option [value]="category">{{ category | titlecase }}</option>
+      }
+    </select>
+  </div>
+
+  @if (hasSelected() && isLoading()) {
+  <div class="alert alert-info">Cargando actividades...</div>
+  } @else if (hasSelected() && error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+  } @else if (hasSelected() && filteredActivities().length > 0) {
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (activity of filteredActivities(); track activity.id) {
+      <tr>
+        <td>{{ activity.nombre }}</td>
+        <td>{{ activity.categoria }}</td>
+        <td>{{ activity.descripcion }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else if (hasSelected()) {
+  <div class="alert alert-warning">
+    No se encontraron actividades para esta categoría.
+  </div>
+  }
+</div>
