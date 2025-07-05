@@ -62,13 +62,6 @@ Response: Confirmación de eliminación
 
 ## ACTIVIDADES
 
-### Obtener actividades de una persona mayor
-
-Method: GET  
-Url: /api/actividades/persona-mayor/:elderId  
-Headers: Authorization: Bearer <token>  
-Response: Array de lista de actividades asociadas a la persona mayor
-
 ### Obtener una actividad por ID
 
 Method: GET  
@@ -81,7 +74,7 @@ Response: Objeto de actividad
 Method: POST  
 Url: /api/actividades  
 Headers: Authorization: Bearer <token>  
-Body: nombre, categoria (una de: medicación, terapia, ejercicio, alimentación, descanso, visita, ocio), descripcion, es_recurrente
+Body: nombre, categoria (una de: medicación, terapia, ejercicio, alimentación, descanso, visita, ocio), descripcion
 Response: Objeto de actividad creada
 
 ### Actualizar una actividad existente
