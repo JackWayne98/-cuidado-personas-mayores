@@ -1,7 +1,10 @@
-import { Component, Output, EventEmitter, Input, inject, HostListener } from '@angular/core';
+import { Component, Output, EventEmitter, Input, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Iuser } from '../../interfaces/iuser';
+import { signal, effect } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -12,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent {
   router = inject(Router);
+  private authService = inject(AuthService);
 
   @Input() isCollapsed = false;
   @Input() isMobileMenuVisible = true;
@@ -19,6 +23,17 @@ export class SideBarComponent {
   @Output() toggleSidebarRequest = new EventEmitter<void>();
 
   activeSection = 'dashboard';
+
+  user = signal<Iuser | null>(null);
+
+  constructor() {
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+      this.authService.getUserById(+userId).then((res) => {
+        this.user.set(res.user);
+      });
+    }
+  }
 
   toggleSidebar() {
     this.toggleSidebarRequest.emit();
