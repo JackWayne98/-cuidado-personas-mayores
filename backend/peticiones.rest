@@ -1,6 +1,6 @@
 
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTIxMTgyODYsImlhdCI6MTc1MTY4NjI4Nn0.fnrhZbkNwUgNnt_Int73txconiJjGww6lNPS53W2otM
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwicm9sIjpudWxsLCJleHAiOjE3NTIxMjg0NzYsImlhdCI6MTc1MTY5NjQ3Nn0.kCNridWElZc8fI0CJPJ5Zi3Mac54AX4s76CGIoAxpgs
 
 ############
 # USUARIOS #
@@ -86,29 +86,37 @@ GET {{host}}/api/actividades/5
 Authorization: {{token}}
 
 ###
+GET {{host}}/api/actividades/usuario
+Authorization: {{token}}
+
+###
+GET {{host}}/api/actividades/all
+Authorization: {{token}}
+
+###
 POST {{host}}/api/actividades
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "nombre": "Ejercicio Matutino",
+  "nombre": "Ejercicio Matutino 2",
   "categoria": "ejercicio",
   "descripcion": "Sesión de estiramientos de 30 minutos"
 }
 
 ###
-PUT {{host}}/api/actividades/42
+PUT {{host}}/api/actividades/40
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "nombre": "Ejercicio de memoria 2",
+  "nombre": "Ejercicio de memoria 3",
   "categoria": "terapia",
   "descripcion": "Actividades para estimular la memoria y concentración"
 }
 
 ###
-DELETE {{host}}/api/actividades/42
+DELETE {{host}}/api/actividades/43
 Authorization: {{token}}
 
 
