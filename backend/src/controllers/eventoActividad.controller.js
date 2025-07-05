@@ -1,6 +1,8 @@
 const EventoActividad = require("../models/eventoActividad.model.js");
 const Actividad = require("../models/actividades.model.js");
 const PersonaMayor = require("../models/personasMayores.model.js");
+const enviarCorreo = require("../utils/mailer.js");
+const { programarRecordatorio } = require("../utils/recordatorios.js");
 const dayjs = require("dayjs");
 const { v4: uuidv4 } = require("uuid");
 
@@ -109,8 +111,6 @@ const create = async (req, res) => {
     const eventoCreado = await EventoActividad.selectById(result.insertId);
 
     if (recordatorio === true) {
-      console.log("correo", recordatorio);
-      const enviarCorreo = require("../utils/mailer.js");
 
       const actividad = await Actividad.selectById(actividad_id);
       const personaMayor = await PersonaMayor.selectById(persona_mayor_id);
@@ -144,7 +144,18 @@ const create = async (req, res) => {
     </div>
     `
       );
+
+      programarRecordatorio({
+        correoDestino: req.user.correo,
+        nombreUsuario: req.user.nombre || "usuario",
+        actividad,
+        personaMayor,
+        fecha_inicio
+      });
+
     }
+
+
 
     return res.json({
       message: "Evento registrado correctamente",

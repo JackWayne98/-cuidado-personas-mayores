@@ -130,7 +130,7 @@ Authorization: {{token}}
 {
   "actividad_id": 8,
   "persona_mayor_id": 10,
-  "fecha_inicio": "2025-07-01 09:00:00",
+  "fecha_inicio": "2025-07-06 08:42:00",
   "fecha_fin": "2025-07-01 10:00:00",
   "recordatorio": true
 }
