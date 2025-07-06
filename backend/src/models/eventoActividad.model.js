@@ -12,10 +12,12 @@ const insertEventoActividad = async (
   modificado_por,
   fecha_creacion,
   fecha_modificacion,
-  grupo_recurrencia_id = null
+  grupo_recurrencia_id = null,
+  intervalo_horas = null,
+  repeticiones = null
 ) => {
   const [result] = await db.query(
-    "INSERT INTO evento_actividad (actividad_id, persona_mayor_id, perfil_usuario_id, fecha_inicio, fecha_fin, recordatorio, estado, creado_por, modificado_por, fecha_creacion, fecha_modificacion, grupo_recurrencia_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO evento_actividad (actividad_id, persona_mayor_id, perfil_usuario_id, fecha_inicio, fecha_fin, recordatorio, estado, creado_por, modificado_por, fecha_creacion, fecha_modificacion, grupo_recurrencia_id, intervalo_horas, repeticiones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       actividad_id,
       persona_mayor_id,
@@ -29,6 +31,8 @@ const insertEventoActividad = async (
       fecha_creacion,
       fecha_modificacion,
       grupo_recurrencia_id,
+      intervalo_horas,
+      repeticiones,
     ]
   );
   return result;
