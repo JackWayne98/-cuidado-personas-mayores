@@ -1,0 +1,180 @@
+<div class="container vh-100 d-flex align-items-center justify-content-center">
+  <div class="w-100" style="max-width: 480px">
+    <h2 class="text-center fw-bold">
+      {{
+        isEditMode() ? "Actualizar Receta Médica" : "Registrar Receta Médica"
+      }}
+    </h2>
+    <p class="text-center text-muted mb-4">
+      {{
+        isEditMode()
+          ? "Completa el formulario para actualizar la receta de la persona mayor."
+          : "Completa el formulario para registrar una receta para un anciano."
+      }}
+    </p>
+
+    <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()">
+      <!-- Persona mayor -->
+      <div class="mb-3">
+        <label class="form-label">Persona mayor</label>
+        <select
+          class="form-select"
+          formControlName="persona_mayor_id"
+          [class.is-invalid]="
+            prescriptionForm.get('persona_mayor_id')?.invalid &&
+            prescriptionForm.get('persona_mayor_id')?.touched
+          "
+        >
+          <option value="" disabled selected>Selecciona un anciano</option>
+          @for (elder of elders(); track elder.id) {
+          <option [value]="elder.id">
+            {{ elder.nombre }} {{ elder.apellido }}
+          </option>
+          }
+        </select>
+        @if (prescriptionForm.get('persona_mayor_id')?.invalid &&
+        prescriptionForm.get('persona_mayor_id')?.touched) {
+        <div class="invalid-feedback d-block">
+          Debes seleccionar una persona mayor.
+        </div>
+        }
+      </div>
+
+      <!-- Medicamento -->
+      <div class="mb-3">
+        <label class="form-label">Medicamento</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="medicamento"
+          placeholder="Nombre del medicamento"
+          [class.is-invalid]="
+            prescriptionForm.get('medicamento')?.invalid &&
+            prescriptionForm.get('medicamento')?.touched
+          "
+        />
+        @if (prescriptionForm.get('medicamento')?.invalid &&
+        prescriptionForm.get('medicamento')?.touched) {
+        <div class="invalid-feedback d-block">
+          El medicamento es obligatorio.
+        </div>
+        }
+      </div>
+
+      <!-- Dosis -->
+      <div class="mb-3">
+        <label class="form-label">Dosis</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="dosis"
+          placeholder="Ej: 10 mg"
+          [class.is-invalid]="
+            prescriptionForm.get('dosis')?.invalid &&
+            prescriptionForm.get('dosis')?.touched
+          "
+        />
+        @if (prescriptionForm.get('dosis')?.invalid &&
+        prescriptionForm.get('dosis')?.touched) {
+        <div class="invalid-feedback d-block">La dosis es obligatoria.</div>
+        }
+      </div>
+
+      <!-- Frecuencia -->
+      <div class="mb-3">
+        <label class="form-label">Frecuencia</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="frecuencia"
+          placeholder="Ej: 1 vez al día"
+          [class.is-invalid]="
+            prescriptionForm.get('frecuencia')?.invalid &&
+            prescriptionForm.get('frecuencia')?.touched
+          "
+        />
+        @if (prescriptionForm.get('frecuencia')?.invalid &&
+        prescriptionForm.get('frecuencia')?.touched) {
+        <div class="invalid-feedback d-block">
+          La frecuencia es obligatoria.
+        </div>
+        }
+      </div>
+
+      <!-- Fecha de inicio -->
+      <div class="mb-3">
+        <label class="form-label">Fecha de inicio</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="fecha_inicio"
+          [class.is-invalid]="
+            prescriptionForm.get('fecha_inicio')?.invalid &&
+            prescriptionForm.get('fecha_inicio')?.touched
+          "
+        />
+        @if (prescriptionForm.get('fecha_inicio')?.invalid &&
+        prescriptionForm.get('fecha_inicio')?.touched) {
+        <div class="invalid-feedback d-block">
+          La fecha de inicio es obligatoria.
+        </div>
+        }
+      </div>
+
+      <!-- Fecha de fin -->
+      <div class="mb-3">
+        <label class="form-label">Fecha de fin</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="fecha_fin"
+          [class.is-invalid]="
+            prescriptionForm.get('fecha_fin')?.invalid &&
+            prescriptionForm.get('fecha_fin')?.touched
+          "
+        />
+        @if (prescriptionForm.get('fecha_fin')?.invalid &&
+        prescriptionForm.get('fecha_fin')?.touched) {
+        <div class="invalid-feedback d-block">
+          La fecha de fin es obligatoria.
+        </div>
+        }
+      </div>
+
+      <!-- Prescrita por -->
+      <div class="mb-3">
+        <label class="form-label">Prescrita por</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="prescrita_por"
+          placeholder="Nombre del doctor"
+          [class.is-invalid]="
+            prescriptionForm.get('prescrita_por')?.invalid &&
+            prescriptionForm.get('prescrita_por')?.touched
+          "
+        />
+        @if (prescriptionForm.get('prescrita_por')?.invalid &&
+        prescriptionForm.get('prescrita_por')?.touched) {
+        <div class="invalid-feedback d-block">Este campo es obligatorio.</div>
+        }
+      </div>
+      <!-- 
+      Archivo PDF
+      <div class="mb-4">
+        <label class="form-label">Archivo PDF (opcional)</label>
+        <input
+          type="file"
+          class="form-control"
+          formControlName="archivo_pdf"
+        />
+      </div> -->
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-dark">
+          {{ isEditMode() ? "Actualizar Receta" : "Registrar Receta" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

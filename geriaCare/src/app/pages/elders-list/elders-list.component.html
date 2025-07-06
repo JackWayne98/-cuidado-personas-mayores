@@ -1,0 +1,61 @@
+<div class="container my-4">
+  <h2 class="mb-4">Lista de Personas Mayores</h2>
+
+  @if (isLoading()) {
+  <div class="alert alert-info">Cargando registros...</div>
+  } @else if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+  } @else if (elders().length > 0) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Género</th>
+        <th>Movilidad</th>
+        <th>Condiciones Médicas</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (elder of elders(); track elder.id) {
+      <tr>
+        <td>{{ elder.nombre }}</td>
+        <td>{{ elder.apellido }}</td>
+        <td>{{ elder.fecha_nacimiento | date : "yyyy-MM-dd" }}</td>
+        <td>{{ elder.genero }}</td>
+        <td>{{ elder.movilidad || "N/A" }}</td>
+        <td>{{ elder.condiciones_medicas || "N/A" }}</td>
+        <td>
+          <a
+            class="btn btn-sm btn-primary me-2"
+            [routerLink]="['/dashboard/elderupdate', elder.id]"
+          >
+            Actualizar anciano
+          </a>
+          <a
+            class="btn btn-sm btn-info me-2"
+            [routerLink]="['/dashboard/elderview', elder.id]"
+          >
+            Información
+          </a>
+
+          <button
+            class="btn btn-sm btn-danger"
+            [disabled]="!elder.id"
+            (click)="elder.id && confirmDelete(elder.id)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+  <div class="alert alert-warning">
+    No se encontraron registros de personas mayores.
+  </div>
+  }
+</div>
