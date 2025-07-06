@@ -25,7 +25,11 @@ const create = async (req, res) => {
       });
     }
 
-    const actividadExistente = await Actividad.findByUniqueFields(nombre, categoria, descripcion);
+    const actividadExistente = await Actividad.findByUniqueFields(
+      nombre,
+      categoria,
+      descripcion
+    );
     if (actividadExistente) {
       return res.status(409).json({
         success: false,
@@ -42,6 +46,7 @@ const create = async (req, res) => {
       descripcion,
       creado_por,
       fecha_creacion,
+      perfil_usuario_id: req.user.id,
     };
 
     const result = await Actividad.insert(nuevaActividad);
@@ -92,7 +97,7 @@ const getByUser = async (req, res) => {
     }
     res.status(200).json({
       success: true,
-      actividades
+      actividades,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -107,13 +112,13 @@ const getAll = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "No hay actividades registradas",
-        actividades: []
+        actividades: [],
       });
     }
 
     res.status(200).json({
       success: true,
-      actividades
+      actividades,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -151,14 +156,17 @@ const update = async (req, res) => {
       });
     }
 
-    const actividadDuplicada = await Actividad.findByUniqueFields(nombre, categoria, descripcion);
+    const actividadDuplicada = await Actividad.findByUniqueFields(
+      nombre,
+      categoria,
+      descripcion
+    );
     if (actividadDuplicada && actividadDuplicada.id !== parseInt(id)) {
       return res.status(409).json({
         success: false,
         message: "Ya existe otra actividad con estos datos",
       });
     }
-
 
     const modificado_por = req.user.id;
     const fecha_modificacion = dayjs().format("YYYY-MM-DD HH:mm:ss");

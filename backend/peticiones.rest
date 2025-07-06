@@ -1,6 +1,6 @@
 
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMiwicm9sIjpudWxsLCJleHAiOjE3NTIyMTIyNTEsImlhdCI6MTc1MTc4MDI1MX0.pUYyP0nM0RnjCz_wMwBMFFSybe2FLmVPkIFWBA7ceT0
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwicm9sIjpudWxsLCJleHAiOjE3NTIyMjIwNzQsImlhdCI6MTc1MTc5MDA3NH0.AsbpcmncjYNWJ8eTKzVutnnGQIghaR4ZTTPw0Lk7JnA
 
 ############
 # USUARIOS #
@@ -25,8 +25,8 @@ POST {{host}}/api/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "santiago.rhp7@gmail.com",
-    "password": "Test123"
+    "email": "martinernestocoronado@gmail.com",
+    "password": "123456"
 }
 
 #################
@@ -98,7 +98,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "nombre": "Ejercicio Matutino 2",
+  "nombre": "Ejercicio Matutino 6",
   "categoria": "ejercicio",
   "descripcion": "Sesión de estiramientos de 30 minutos"
 }
@@ -115,7 +115,7 @@ Authorization: {{token}}
 }
 
 ###
-DELETE {{host}}/api/actividades/43
+DELETE {{host}}/api/actividades/69
 Authorization: {{token}}
 
 
@@ -179,7 +179,7 @@ Authorization: {{token}}
 }
 
 ### Editar un grupo recurrente por ID
-PUT {{host}}/api/evento-actividad/recurrentes/5743a3f2-02b9-4898-8994-5943ff597fa6
+PUT {{host}}/api/evento-actividad/recurrentes/1ba69cab-830b-46b7-be12-139b88335785
 Content-Type: application/json
 Authorization: {{token}}
 

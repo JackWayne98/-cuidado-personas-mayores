@@ -4,12 +4,20 @@ const insert = async ({
   nombre,
   categoria,
   descripcion,
+  perfil_usuario_id,
   creado_por,
   fecha_creacion,
 }) => {
   const [result] = await db.query(
-    "INSERT INTO actividad (nombre, categoria, descripcion, creado_por, fecha_creacion) VALUES (?, ?, ?, ?, ?)",
-    [nombre, categoria, descripcion, creado_por, fecha_creacion]
+    "INSERT INTO actividad (nombre, categoria, descripcion, perfil_usuario_id, creado_por, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?)",
+    [
+      nombre,
+      categoria,
+      descripcion,
+      perfil_usuario_id,
+      creado_por,
+      fecha_creacion,
+    ]
   );
   return result;
 };
@@ -30,7 +38,7 @@ const selectById = async (id) => {
 
 const selectByUser = async (perfil_usuario_id) => {
   const [result] = await db.query(
-    "SELECT a.* FROM evento_actividad ea JOIN actividad a ON ea.actividad_id = a.id WHERE ea.perfil_usuario_id = ? ORDER BY a.nombre;",
+    "SELECT * FROM actividad WHERE perfil_usuario_id = ? ORDER BY nombre ASC",
     [perfil_usuario_id]
   );
   return result;
@@ -69,4 +77,12 @@ const remove = async (id) => {
   return result;
 };
 
-module.exports = { insert, selectById, selectByUser, update, remove, selectAll, findByUniqueFields };
+module.exports = {
+  insert,
+  selectById,
+  selectByUser,
+  update,
+  remove,
+  selectAll,
+  findByUniqueFields,
+};
