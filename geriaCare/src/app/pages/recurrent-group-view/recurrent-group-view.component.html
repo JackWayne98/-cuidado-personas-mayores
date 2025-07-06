@@ -1,0 +1,59 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-center text-success">Eventos del grupo recurrente</h2>
+
+  @if (error()) {
+  <div class="alert alert-danger text-center">{{ error() }}</div>
+  } @else if (events().length > 0) {
+  <ul class="list-group list-group-flush">
+    @for (event of events(); track event.id) {
+    <li class="list-group-item">
+      <p>
+        <strong>Actividad:</strong> {{ activityNames.get(event.id) }}<br />
+        <strong>Inicio:</strong>
+        {{ event.fecha_inicio | date : "MM-dd-yyyy HH:mm" }}<br />
+        <strong>Fin:</strong>
+        {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }}<br />
+        <strong>Estado:</strong>
+        <span
+          [ngClass]="{
+            'text-success': event.estado === 'completado',
+            'text-danger': event.estado === 'cancelado'
+          }"
+        >
+          {{ event.estado }}
+        </span>
+        <br />
+        <strong>Recordatorio:</strong>
+        {{ event.recordatorio ? "Sí" : "No" }}
+      </p>
+      <div class="d-flex gap-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-secondary"
+          (click)="changeEventStatus(event.id)"
+          [disabled]="
+            event.estado === 'completado' || event.estado === 'cancelado'
+          "
+        >
+          Estado
+        </button>
+      </div>
+    </li>
+    }
+  </ul>
+  } @else {
+  <div class="alert alert-info text-center">
+    No se encontraron eventos en este grupo recurrente.
+  </div>
+  }
+
+  <div class="text-center mt-4">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="goBackToElderView()"
+    >
+      Regresar
+    </button>
+  </div>
+</div>
