@@ -1,0 +1,363 @@
+
+@host= http://localhost:3000
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwicm9sIjpudWxsLCJleHAiOjE3NTIyMjIwNzQsImlhdCI6MTc1MTc5MDA3NH0.AsbpcmncjYNWJ8eTKzVutnnGQIghaR4ZTTPw0Lk7JnA
+
+############
+# USUARIOS #
+############
+
+###
+GET {{host}}/api/usuarios/1
+
+###
+POST {{host}}/api/usuarios/register
+Content-Type: application/json
+
+{
+    "name":"Santiago",
+    "lastname":"Raúl",
+    "email":"santiago.rhp7@gmail.com",
+    "password": "Test"
+}
+
+###
+POST {{host}}/api/usuarios/login
+Content-Type: application/json
+
+{
+    "email": "martinernestocoronado@gmail.com",
+    "password": "123456"
+}
+
+#################
+# PERSONA MAYOR #
+#################
+
+### Obtener persona mayor por ID
+GET {{host}}/api/personas-mayores/10
+Authorization: {{token}}
+
+### Listar todas las personas mayores del usuario
+GET {{host}}/api/personas-mayores
+Authorization: {{token}}
+
+### Crear una nueva persona mayor
+POST {{host}}/api/personas-mayores
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Cesar",
+  "apellido": "Ho",
+  "fecha_nacimiento": "1950-05-10",
+  "genero": "Masculino",
+  "movilidad": "Limitada",
+  "condiciones_medicas": "Diabetes",
+  "notas_generales": "Requiere atención especial",
+  "relacion": "familiar"
+}
+
+### Actualizar persona mayor por ID
+PUT {{host}}/api/personas-mayores/9
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Juana",
+  "apellido": "Pérez",
+  "fecha_nacimiento": "1945-03-15",
+  "genero": "femenino",
+  "movilidad": "limitada",
+  "condiciones_medicas": "hipertensión",
+  "notas_generales": "Requiere control mensual"
+}
+
+### Eliminar persona mayor por ID
+DELETE {{host}}/api/personas-mayores/9
+Authorization: {{token}}
+
+###############
+# ACTIVIDADES #
+###############
+
+###
+GET {{host}}/api/actividades/50
+Authorization: {{token}}
+
+###
+GET {{host}}/api/actividades/usuario
+Authorization: {{token}}
+
+###
+GET {{host}}/api/actividades/all
+Authorization: {{token}}
+
+###
+POST {{host}}/api/actividades
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Ejercicio Matutino 6",
+  "categoria": "ejercicio",
+  "descripcion": "Sesión de estiramientos de 30 minutos"
+}
+
+###
+PUT {{host}}/api/actividades/40
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Ejercicio de memoria 3",
+  "categoria": "terapia",
+  "descripcion": "Actividades para estimular la memoria y concentración"
+}
+
+###
+DELETE {{host}}/api/actividades/69
+Authorization: {{token}}
+
+
+### Obtener actividades por usuario
+GET {{host}}/api/actividades/usuario
+Authorization: {{token}}
+
+
+###################
+# EVENTOACTIVIDAD #
+###################
+### Crear un evento individual
+POST {{host}}/api/evento-actividad
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "actividad_id": 71,
+  "persona_mayor_id": 15,
+  "fecha_inicio": "2025-07-06 08:42:00",
+  "fecha_fin": "2025-07-01 10:00:00",
+  "recordatorio": true
+}
+
+### Crear un grupo de eventos recurrentes
+POST {{host}}/api/evento-actividad/recurrentes
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "actividad_id": 50,
+  "persona_mayor_id": 17,
+  "fecha_inicio": "2025-08-10 09:00:00",
+  "fecha_fin": "2025-09-01 10:00:00",
+  "recordatorio": true,
+  "intervalo_horas": 48,
+  "repeticiones": 4
+}
+
+### Obtener todos los eventos del usuario
+GET {{host}}/api/evento-actividad
+Authorization: {{token}}
+
+### Obtener eventos de un grupo recurrente específico
+GET {{host}}/api/evento-actividad/recurrentes/e41306a9-d099-4530-947a-49f26c1b0241
+Authorization: {{token}}
+
+### Obtener un evento individual por ID
+GET {{host}}/api/evento-actividad/11
+Authorization: {{token}}
+
+### Editar un evento individual por ID
+PUT {{host}}/api/evento-actividad/82
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "fecha_inicio": "2025-08-01 09:30:00",
+  "fecha_fin": "2025-08-01 10:30:00",
+  "recordatorio": false
+}
+
+### Editar un grupo recurrente por ID
+PUT {{host}}/api/evento-actividad/recurrentes/1ba69cab-830b-46b7-be12-139b88335785
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "fecha_inicio": "2025-07-02 09:00:00",
+  "fecha_fin": "2025-07-02 11:00:00",
+  "recordatorio": false
+}
+
+### Cambiar el estado de un evento individual
+PUT {{host}}/api/evento-actividad/82/status
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "estado": "pendiente"
+}
+
+### Eliminar un evento individual
+DELETE {{host}}/api/evento-actividad/83
+Authorization: {{token}}
+
+### Eliminar un grupo recurrente
+DELETE {{host}}/api/evento-actividad/recurrentes/d537c9d0-1bc6-4d85-a95a-6bca605859b6
+Authorization: {{token}}
+
+###########
+# RECETAS #
+###########
+
+###
+POST {{host}}/api/recetas-medicas
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 9,
+  "medicamento": "Atorvastatina",
+  "dosis": "10 mg",
+  "frecuencia": "1 vez al día",
+  "fecha_inicio": "2025-06-30",
+  "fecha_fin": "2025-07-30",
+  "prescrita_por": "Dr. Ramírez",
+  "archivo_pdf": "receta_atorvastatina.pdf"
+}
+
+###
+GET {{host}}/api/recetas-medicas/persona-mayor/15
+Authorization: {{token}}
+
+###
+GET {{host}}/api/recetas-medicas/5
+Authorization: {{token}}
+
+###
+###
+PUT {{host}}/api/recetas-medicas/2
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "medicamento": "Metformina",
+  "dosis": "850 mg",
+  "frecuencia": "2 veces al día",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-08-01",
+  "prescrita_por": "Dra. Martínez",
+  "archivo_pdf": "receta_metformina.pdf"
+}
+
+###
+DELETE {{host}}/api/recetas-medicas/4
+Authorization: {{token}}
+
+##########
+# DIETAS #
+##########
+
+###
+###
+POST {{host}}/api/dietas-alimenticias
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 3,
+  "descripcion": "Dieta baja en grasas",
+  "restricciones": "Evitar frituras, embutidos y productos ultraprocesados",
+  "recomendaciones": "Consumir frutas, verduras, pescado y aceite de oliva",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-08-01"
+}
+
+###
+GET {{host}}/api/dietas-alimenticias/persona-mayor/3
+Authorization: {{token}}
+
+###
+GET {{host}}/api/dietas-alimenticias/8
+Authorization: {{token}}
+
+###
+PUT {{host}}/api/dietas-alimenticias/4
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "descripcion": "Dieta baja en sodio",
+  "restricciones": "Evitar alimentos procesados, sopas instantáneas",
+  "recomendaciones": "Consumir vegetales frescos, legumbres y carnes magras",
+  "fecha_inicio": "2025-07-01",
+  "fecha_fin": "2025-09-01",
+  "es_activa": 1
+}
+
+###
+DELETE {{host}}/api/dietas-alimenticias/2
+Authorization: {{token}}
+
+###########################
+# CONTACTOS DE EMERGENCIA #
+###########################
+
+###
+###
+POST {{host}}/api/contactos-emergencia
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "persona_mayor_id": 10,
+  "nombre": "Santiago Raúl",
+  "correo": "santiago.rhp7@gmail.com",
+  "telefono": "0966666666",
+  "relacion": "Sobrino favorito",
+  "es_medico": 1
+}
+
+###
+GET {{host}}/api/contactos-emergencia/persona-mayor/8
+Authorization: {{token}}
+
+###
+GET {{host}}/api/contactos-emergencia/8
+Authorization: {{token}}
+
+###
+###
+PUT {{host}}/api/contactos-emergencia/20
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "nombre": "Valentina Torres",
+  "correo": "wicky13@gmail.com",
+  "telefono": "0966666666",
+  "relacion": "prima",
+  "es_medico": 1
+}
+
+###
+DELETE {{host}}/api/contactos-emergencia/18
+Authorization: {{token}}
+
+
+###########################
+# NOTIFICACIONES #
+###########################
+
+POST {{host}}/api/notificaciones
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "evento_actividad_id": 15
+}
+
+###
+PUT {{host}}/api/notificaciones/123/leida
+Authorization: {{token}}
+Content-Type: application/json
