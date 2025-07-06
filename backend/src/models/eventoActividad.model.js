@@ -38,10 +38,8 @@ const selectByUser = async (perfil_usuario_id) => {
   const [result] = await db.query(
     `SELECT * 
      FROM evento_actividad 
-     WHERE perfil_usuario_id = ?
-     ORDER BY 
-       COALESCE(grupo_recurrencia_id, CONCAT(id, '')) ASC,
-       fecha_inicio ASC`,
+     WHERE perfil_usuario_id = ? 
+     ORDER BY fecha_inicio ASC`,
     [perfil_usuario_id]
   );
   return result;
