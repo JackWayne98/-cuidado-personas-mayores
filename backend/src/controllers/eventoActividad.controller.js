@@ -228,7 +228,9 @@ const createRecurrentEvent = async (req, res) => {
           modificado_por,
           fecha_creacion,
           fecha_modificacion,
-          grupo_recurrencia_id
+          grupo_recurrencia_id,
+          intervalo_horas,
+          repeticiones
         )
       );
       console.log(
