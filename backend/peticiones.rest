@@ -1,6 +1,6 @@
 
 @host= http://localhost:3000
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwicm9sIjpudWxsLCJleHAiOjE3NTIyMjIwNzQsImlhdCI6MTc1MTc5MDA3NH0.AsbpcmncjYNWJ8eTKzVutnnGQIghaR4ZTTPw0Lk7JnA
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMCwicm9sIjpudWxsLCJleHAiOjE3NTIzNzU2OTAsImlhdCI6MTc1MTk0MzY5MH0.T3UGlJ1Wsyi2GaezHq0Fkz2tY7zGZLp2YUZBwbmzTis
 
 ############
 # USUARIOS #
@@ -34,7 +34,7 @@ Content-Type: application/json
 #################
 
 ### Obtener persona mayor por ID
-GET {{host}}/api/personas-mayores/10
+GET {{host}}/api/personas-mayores/17
 Authorization: {{token}}
 
 ### Listar todas las personas mayores del usuario
