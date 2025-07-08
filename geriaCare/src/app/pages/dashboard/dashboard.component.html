@@ -31,23 +31,34 @@
                 }
               </select>
             </div>
+
             <div class="card-body">
               @if (filteredEvents().length === 0) {
               <p class="text-muted text-center mb-0">
                 No hay actividades programadas para la semana.
               </p>
-              } @else { @for (event of filteredEvents(); track event.id) {
+              } @else { @for (day of weekDayKeys; track day) {
+              <h6 class="mt-4 text-primary text-uppercase">{{ day }}</h6>
+
+              @if (weeklyEventsByDay()[day].length === 0) {
+              <p class="text-muted small mb-2">Sin actividades.</p>
+              } @else { @for (event of weeklyEventsByDay()[day]; track event.id)
+              {
               <div class="d-flex align-items-center py-3 border-bottom">
                 <div class="activity-time me-3">
                   {{ event.fecha_inicio | date : "HH:mm" }}
                 </div>
+
                 <div class="flex-grow-1">
                   <h6 class="mb-1">
                     {{
                       activitiesMap.get(event.actividad_id)?.nombre ||
                         "Actividad desconocida"
                     }}
+                    -
+                    {{ getElderFullNameById(+event.persona_mayor_id) }}
                   </h6>
+
                   <p class="text-muted small mb-0">
                     Desde:
                     {{ event.fecha_inicio | date : "MM-dd-yyyy HH:mm" }}<br />
@@ -55,6 +66,7 @@
                     {{ event.fecha_fin | date : "MM-dd-yyyy HH:mm" }}
                   </p>
                 </div>
+
                 <span
                   class="status-badge"
                   [ngClass]="{
@@ -82,7 +94,7 @@
                   Cambiar Estado
                 </button>
               </div>
-              } }
+              } } } }
             </div>
           </div>
         </div>

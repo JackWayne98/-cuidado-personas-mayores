@@ -45,12 +45,56 @@ export class DashboardComponent {
   selectedElderContacts = signal<IemergencyContact[]>([]);
   activitiesMap = new Map<number, Iactivity>();
 
+  get weekDays(): string[] {
+    return [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+    ];
+  }
+
+  get weekDayKeys(): string[] {
+    return this.weekDays;
+  }
+
   filteredEvents = computed(() => {
     const elderId = this.selectedElderId();
     if (!elderId) return this.todayEvents();
     return this.todayEvents().filter(
       (e) => Number(e.persona_mayor_id) === elderId
     );
+  });
+
+  weeklyEventsByDay = computed(() => {
+    const grouped: { [day: string]: IeventResponse[] } = {
+      domingo: [],
+      lunes: [],
+      martes: [],
+      miércoles: [],
+      jueves: [],
+      viernes: [],
+      sábado: [],
+    };
+
+    for (const event of this.filteredEvents()) {
+      const date = new Date(event.fecha_inicio);
+      const dayName = this.weekDays[date.getDay()];
+      grouped[dayName].push(event);
+    }
+
+    for (const day of this.weekDays) {
+      grouped[day].sort(
+        (a, b) =>
+          new Date(a.fecha_inicio).getTime() -
+          new Date(b.fecha_inicio).getTime()
+      );
+    }
+
+    return grouped;
   });
 
   private watchSelectedElderEffect = effect(async () => {
@@ -120,6 +164,7 @@ export class DashboardComponent {
         this.error.set("No se encontró el ID del usuario.");
         return;
       }
+
       const userResponse = await this.authService.getUserById(+userId);
       this.user.set(userResponse.user);
     } catch (err) {
@@ -234,5 +279,11 @@ export class DashboardComponent {
         "error"
       );
     }
+  }
+  getElderFullNameById(id: number): string {
+    const elder = this.elders().find((e) => e.id === id);
+    return elder
+      ? `${elder.nombre} ${elder.apellido}`
+      : "Residente desconocido";
   }
 }
