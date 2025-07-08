@@ -4,7 +4,7 @@ import { LandingFooterComponent } from "../../shared/landing-footer/landing-foot
 
 @Component({
   selector: "app-home",
-  imports: [LandingFooterComponent],
+  imports: [LandingFooterComponent, RouterLink],
   templateUrl: "./home.component.html",
   styleUrl: "./home.component.css",
 })
